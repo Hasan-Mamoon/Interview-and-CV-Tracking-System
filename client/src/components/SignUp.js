@@ -35,13 +35,16 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    let email = data.get('email')
-    let password = data.get('password')
+    let email = data.get('email');
+    let password = data.get('password');
+    let username = data.get('userName');
+    let firstname = data.get('firstName');
+    let lastname = data.get('lastName');
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
-    axios.post("",email,password);
+    axios.post("http://localhost:3070/auth/mentor/signup",{username,firstname,lastname,email,password});
   };
 
   return (
@@ -83,6 +86,16 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="userName"
+                  label="Username"
+                  name="userName"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>
