@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt";
 import applyModel from "../models/apply.js";
 import express from "express";
+import bcrypt from "bcrypt";
 
 const app = express.Router();
 

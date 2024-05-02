@@ -47,7 +47,7 @@ export default function SignInSide() {
       email: data.get("email"),
       password: data.get("password"),
     });
-    axios.post("http://localhost:3070/stud/student/signin", {
+    axios.post("http://localhost:3045/student/signin", {
       email,
       password,
     });
@@ -131,7 +131,7 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href="/" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>

@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SignUpHomeBar from "./SignupHomeBar";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -40,9 +41,21 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    let email = data.get("email");
+    let password = data.get("password");
+    let firstname = data.get("firstName");
+    let lastname = data.get("lastname");
+    let username = data.get("username");
     console.log({
       email: data.get("email"),
       password: data.get("password"),
+    });
+    axios.post("http://localhost:3045/student/signup", {
+      firstname,
+      lastname,
+      username,
+      email,
+      password,
     });
   };
 
@@ -101,6 +114,17 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="username"
+                  label="Username"
+                  type="username"
+                  id="username"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>

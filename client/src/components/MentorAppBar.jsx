@@ -15,7 +15,7 @@ const Navbar2 = () => {
           Sign Up
         </Link>
         <Link to="/mentor/sign-in" className="navbar-link">
-          Login
+          Sign In
         </Link>
       </div>
     </div>
