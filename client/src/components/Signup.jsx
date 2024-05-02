@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import SignUpHomeBar from "./SignupHomeBar";
 
 function Copyright(props) {
   return (
@@ -47,6 +48,7 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <SignUpHomeBar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -131,7 +133,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="signin" variant="body2">
+                <Link href="sign-in/" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

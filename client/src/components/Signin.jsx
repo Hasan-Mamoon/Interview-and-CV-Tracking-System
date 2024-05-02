@@ -12,6 +12,8 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import SigninHomeBar from "./SigninHomeBar";
 
 function Copyright(props) {
   return (
@@ -39,14 +41,21 @@ export default function SignInSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    let email = data.get("email");
+    let password = data.get("password");
     console.log({
       email: data.get("email"),
       password: data.get("password"),
+    });
+    axios.post("http://localhost:3070/stud/student/signin", {
+      email,
+      password,
     });
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <SigninHomeBar />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -127,7 +136,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="signup" variant="body2">
+                  <Link href="sign-up/" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
