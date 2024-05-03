@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 // function Copyright(props) {
 //   return (
@@ -32,14 +34,20 @@ import axios from 'axios';
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const navigate = useNavigate();
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    let email = data.get('email')
-    let password = data.get('password')
+    
+    // const data = new FormData(event.currentTarget);
+    // let email = data.get('email')
+    // let password = data.get('password')
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email,
+      password
     });
     const response = await fetch("http://localhost:3070/auth/mentor/signin", {
       method: 'POST',
@@ -50,8 +58,10 @@ export default function SignInSide() {
     });
     if(response.ok){
       console.log("OK")
-      return <Link href="/mentor/dashboard"/>
+      // return <Link href="/mentor/dashboard"/>
+      navigate("/mentor/dashboard")
     } else{
+      alert("Invalid Credentials")
       console.log("login failed");
     }
     
@@ -91,7 +101,7 @@ export default function SignInSide() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Mentor | Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -101,6 +111,7 @@ export default function SignInSide() {
                 id="email"
                 label="Email Address"
                 name="email"
+                onChange={(event) => setEmail(event.target.value)}
                 autoComplete="email"
                 autoFocus
               />
@@ -111,6 +122,7 @@ export default function SignInSide() {
                 name="password"
                 label="Password"
                 type="password"
+                onChange={(event) => setPassword(event.target.value)}
                 id="password"
                 autoComplete="current-password"
               />
@@ -133,7 +145,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/mentor/signup" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

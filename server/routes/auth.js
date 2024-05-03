@@ -10,11 +10,11 @@ router.post("/mentor/signin",async(req,res)=>{
         const { email, password } = req.body;
           const mentoro = await mentor.findOne({ email });
           if (!mentoro) {
-            return res.json({ message: "Invalid Email" });
+            return res.status(401).json({ message: "Invalid Email" });
           }
           const validpassword = await bcrypt.compare(password, mentoro.password);
           if (!validpassword) {
-            return res.json({ message: "Wrong Password" });
+            return res.status(401).json({ message: "Wrong Password" });
           }
           const token = jwt.sign(
             { email: mentoro.email},
