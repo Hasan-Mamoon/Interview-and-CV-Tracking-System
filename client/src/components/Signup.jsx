@@ -44,7 +44,7 @@ export default function SignUp() {
     let email = data.get("email");
     let password = data.get("password");
     let firstname = data.get("firstName");
-    let lastname = data.get("lastname");
+    let lastname = data.get("lastName");
     let username = data.get("username");
     console.log({
       email: data.get("email"),
