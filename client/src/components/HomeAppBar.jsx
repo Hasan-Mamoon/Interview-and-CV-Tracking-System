@@ -8,7 +8,7 @@ const Navbar2 = () => {
         <span className="navbar-brand">INTERVIEW AND CV TRACKING SYSTEM</span>
       </div>
       <div className="navbar-right">
-        <Link to="/Mentor" className="navbar-link">
+        <Link to="/mentor/signin" className="navbar-link">
           Mentor
         </Link>
         <Link to="/Student" className="navbar-link">
