@@ -5,31 +5,22 @@ const Navbar2 = () => {
   return (
     <div className="navbar">
       <div className="navbar-left">
-        <span className="navbar-brand">FAST-NU Book Shop</span>
+        <span className="navbar-brand">Dashboard</span>
       </div>
       <div className="navbar-right">
         <Link to="/" className="navbar-link">
           Home
         </Link>
-        <Link to="/books" className="navbar-link">
-          Books
+        <Link to="/student/dashboard/apply" className="navbar-link">
+          Apply
         </Link>
-        <Link to="/addbook" className="navbar-link">
-          AddBook
+        <Link to="/student/dashboard/details" className="navbar-link">
+          Details
         </Link>
-        <Link to="/addstudent" className="navbar-link">
-          Add Student
+        <Link to="/student/dashboard/feedback" className="navbar-link">
+          Feedback
         </Link>
-        <Link to="/dashboard" className="navbar-link">
-          Dashboard
-        </Link>
-        <Link to="/sign-up" className="navbar-link">
-          Sign Up
-        </Link>
-        <Link to="/sign-in" className="navbar-link">
-          Login
-        </Link>
-        <Link to="/logout" className="navbar-link">
+        <Link to="/" className="navbar-link">
           Logout
         </Link>
       </div>
