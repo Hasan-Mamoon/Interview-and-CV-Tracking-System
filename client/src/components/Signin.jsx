@@ -14,6 +14,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import SigninHomeBar from "./SigninHomeBar";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -38,19 +40,34 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    let email = data.get("email");
-    let password = data.get("password");
+
+    // const data = new FormData(event.currentTarget);
+    // let email = data.get('email')
+    // let password = data.get('password')
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    axios.post("http://localhost:3045/student/signin", {
       email,
       password,
     });
+    const response = await fetch("http://localhost:3070/auth/mentor/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    if (response.ok) {
+      console.log("OK");
+      // return <Link href="/mentor/dashboard"/>
+      navigate("/student/dashboard");
+    } else {
+      alert("Invalid Credentials");
+      console.log("login failed");
+    }
   };
 
   return (
@@ -136,7 +153,7 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="sign-up/" variant="body2">
+                  <Link href="sign-up" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
