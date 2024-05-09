@@ -10,17 +10,17 @@ router.post("/signin", async (req, res) => {
     const { email, password } = req.body;
     const studentt = await student.findOne({ email });
     if (!studentt) {
-      return res.json({ message: "Invalid Email" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
-    const validpassword = await bcrypt.compare(password, studentt.password);
-    if (!validpassword) {
-      return res.json({ message: "Wrong Password" });
+    const validPassword = await bcrypt.compare(password, studentt.password);
+    if (!validPassword) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
     const token = jwt.sign({ email: studentt.email }, process.env.studentkey, {
       expiresIn: "1m",
     });
     res.cookie("token", token, { httpOnly: true, maxAge: 60 * 1000 });
-    return res.json({ login: true });
+    return res.json({ message: "Sign-in successful", login: true });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal Server Error" });

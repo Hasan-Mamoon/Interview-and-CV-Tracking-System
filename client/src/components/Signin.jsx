@@ -12,7 +12,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
+// import axios from "axios";
 import SigninHomeBar from "./SigninHomeBar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -39,34 +39,37 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+export default function Signin() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     // const data = new FormData(event.currentTarget);
     // let email = data.get('email')
     // let password = data.get('password')
-    console.log({
-      email,
-      password,
-    });
-    const response = await fetch("http://localhost:3070/auth/mentor/signin", {
+
+    const response = await fetch("http://localhost:3045/student/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
-    if (response.ok) {
+    if (response.status === 200) {
+      // Successful authentication
       console.log("OK");
-      // return <Link href="/mentor/dashboard"/>
       navigate("/student/dashboard");
-    } else {
+    } else if (response.status === 401) {
+      // Unauthorized - invalid credentials
       alert("Invalid Credentials");
       console.log("login failed");
+    } else {
+      // Other errors
+      alert("An error occurred. Please try again.");
+      console.log("An error occurred while logging in.");
     }
   };
 
@@ -121,6 +124,7 @@ export default function SignInSide() {
                 id="email"
                 label="Email Address"
                 name="email"
+                onChange={(event) => setEmail(event.target.value)}
                 autoComplete="email"
                 autoFocus
               />
@@ -129,6 +133,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 name="password"
+                onChange={(event) => setPassword(event.target.value)}
                 label="Password"
                 type="password"
                 id="password"
