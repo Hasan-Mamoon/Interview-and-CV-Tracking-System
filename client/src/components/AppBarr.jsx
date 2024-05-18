@@ -8,9 +8,6 @@ const Navbar2 = () => {
         <span className="navbar-brand">Dashboard</span>
       </div>
       <div className="navbar-right">
-        <Link to="/" className="navbar-link">
-          Home
-        </Link>
         <Link to="/student/dashboard/apply" className="navbar-link">
           Apply
         </Link>

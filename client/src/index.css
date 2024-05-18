@@ -62,3 +62,59 @@
 .home-content {
   position: relative;
 }
+
+.page,
+.student-form-container {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  background-color: lightblue;
+}
+.container,
+.student-form {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+}
+.container h2,
+.student-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.container .form-group,
+.student-form .form-group {
+  margin-bottom: 15px;
+}
+.container .form-group label,
+.student-form .form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.container .form-group input,
+.container .form-group select,
+.student-form .form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+.container .btn-login,
+.student-form button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 8px;
+}

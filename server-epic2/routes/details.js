@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import detailModel from "../models/details.js";
 import express from "express";
 
@@ -6,19 +5,18 @@ const app = express.Router();
 
 app.post("/student-details", async (req, res) => {
   try {
-    const { rollno, email, grade, password, uploadedDetails } = req.body;
+    const { email, firstname, lastname, dob, phoneno, gender } = req.body;
     const existing = await detailModel.findOne({ email: email });
     if (existing) {
-      return res.json({ success: false, message: "Email Already Exists" });
+      return res.status(409).json({ message: "Email Already Exists" });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     await detailModel.create({
-      rollno,
       email,
-      grade,
-      password: hashedPassword,
-      uploadedDetails,
+      firstname,
+      lastname,
+      dob,
+      phoneno,
+      gender,
     });
     return res.json({ success: true, message: "Details Uploaded" });
   } catch (err) {

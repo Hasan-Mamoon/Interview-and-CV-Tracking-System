@@ -5,7 +5,7 @@ const Dashboard = () => {
   return (
     <>
       <AppBarr />
-      Dashboard
+      <div className="page">Welcome Student </div>
     </>
   );
 };
