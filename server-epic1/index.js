@@ -2,6 +2,7 @@ import "./db.js"
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import {mentorRouter} from "./routes/auth.js";
 //import StudentRouter from "./Routes/studentRoutes.js";
 
@@ -10,7 +11,7 @@ dotenv.config();
 
 app.use((req, res, next) => {
   // Set allowed origins (you can customize this based on your needs)
-  res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // Allow requests from any origin
 
   // Set allowed methods
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT');
@@ -23,9 +24,11 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use(cookieParser());
+
 app.use(
   cors({
-    origin: ["http://localhost:3070/"],
+    origin: ["http://localhost:3000/"],
     credentials: true,
   })
 );

@@ -5,6 +5,25 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
+const checkAuth = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ loggedIn: false });
+  }
+  try {
+    const decoded = jwt.verify(token, process.env.Mentor_key);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ loggedIn: false });
+  }
+};
+
+// Route to check authentication status
+router.get('/mentor/check-auth', checkAuth, (req, res) => {
+  return res.json({ loggedIn: true });
+});
+
 router.post("/mentor/signin",async(req,res)=>{
     try {
         const { email, password } = req.body;
@@ -22,7 +41,7 @@ router.post("/mentor/signin",async(req,res)=>{
             { expiresIn: "1m" }
           );
           res.cookie("token", token, { httpOnly: true, maxAge: 60 * 1000 });
-          return res.json({ login: true,});
+          return res.json({ login: true, loading: false});
         
       } catch (err) {
         console.error(err);

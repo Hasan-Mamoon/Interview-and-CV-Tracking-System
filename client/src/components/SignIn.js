@@ -15,25 +15,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import { useContext } from 'react';
+import { AuthContext } from '../AuthContext';
 
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+  const {setAuth} = useContext(AuthContext);
+  
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
@@ -41,32 +30,32 @@ export default function SignInSide() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    // const data = new FormData(event.currentTarget);
-    // let email = data.get('email')
-    // let password = data.get('password')
-    console.log({
-      email,
-      password
-    });
+    try{
+
     const response = await fetch("http://localhost:3070/auth/mentor/signin", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
+      credentials:'include'
     });
     if(response.ok){
       console.log("OK")
-      // return <Link href="/mentor/dashboard"/>
+      const response2 = await axios.get("http://localhost:3070/auth/mentor/check-auth",{
+        withCredentials:true,
+      });
+      setAuth({loggedIn: response2.data.loggedIn, loading: false })
       navigate("/mentor/dashboard")
     } else{
       alert("Invalid Credentials")
       console.log("login failed");
-    }
-    
+    }}
 
-  
+    catch(err){
+      console.error(err);
+      alert(err);
+    }
   };
 
   return (
@@ -150,7 +139,6 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
-              {/* <Copyright sx={{ mt: 5 }} /> */}
             </Box>
           </Box>
         </Grid>
