@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -38,25 +39,29 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate(); // Get history object
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let email = data.get("email");
     let password = data.get("password");
     let firstname = data.get("firstName");
-    let lastname = data.get("lastname");
+    let lastname = data.get("lastName");
     let username = data.get("username");
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    axios.post("http://localhost:3045/student/signup", {
-      firstname,
-      lastname,
-      username,
-      email,
-      password,
-    });
+    try {
+      // Attempt signup
+      await axios.post("http://localhost:3045/student/signup", {
+        firstname,
+        lastname,
+        username,
+        email,
+        password,
+      });
+      // Redirect to sign-in page on successful signup
+      navigate("/student/sign-in"); // Change the path to your sign-in route
+    } catch (error) {
+      console.error("Signup failed:", error);
+    }
   };
 
   return (
@@ -157,7 +162,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="sign-in/" variant="body2">
+                <Link href="sign-in" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
