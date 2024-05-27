@@ -37,7 +37,7 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, height: '64px'  }}>
-      <Container maxWidth="xl" >
+      <Container maxWidth="xxl" >
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
