@@ -10,6 +10,7 @@ import HomeStudent from "./components/HomeStudent";
 import { AuthProvider } from "./AuthContext";
 import ProtectedRoute from './components/ProtectedRoutes';
 import {BrowserRouter,Routes,Route} from "react-router-dom"
+import ReviewCvs from './components/ReviewCvs';
 
 function App() {
   return (
@@ -20,12 +21,14 @@ function App() {
     <Routes>
       <Route path="/mentor/signup" element={<SignUp/>}></Route> 
       <Route path="/mentor/signin" element={<SignIn/>}></Route> 
+      <Route path="/mentor/dashboard/review-cvs" element={<ReviewCvs/>}></Route> 
       {/* <Route path='/mentor/dashboard' element={<Dashboard/>}></Route> */}
       <Route path="/mentor/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
       <Route path="/" element={<Home />}></Route>
       <Route path="/student" element={<HomeStudent />}></Route>
       <Route path="/student/sign-up" element={<Signup />}></Route>
       <Route path="/student/sign-in" element={<Signin />}></Route>
+      
     </Routes>
         
     </BrowserRouter>
