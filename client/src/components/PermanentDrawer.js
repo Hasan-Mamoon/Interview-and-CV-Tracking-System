@@ -83,13 +83,10 @@ function ResponsiveDrawer(props) {
         // Navigate to the Review CVS page
         navigate("/mentor/dashboard/review-cvs");
         break;
-      case 'Starred':
-        // Navigate to the Starred page
-        console.log('Navigating to Starred page');
-        break;
+
       case 'Schedule Interviews':
         // Navigate to the Schedule Interviews page
-        console.log('Navigating to Schedule Interviews page');
+        navigate("/mentor/dashboard/schedule");
         break;
       default:
         break;
@@ -103,7 +100,6 @@ function ResponsiveDrawer(props) {
       <List>
         {[
           "Review CVS",
-          "Starred",
           "Schedule Interviews",
           
         ].map((text, index) => (

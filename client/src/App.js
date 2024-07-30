@@ -7,7 +7,6 @@ import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import HomeStudent from "./components/HomeStudent";
-import Dashboard from "./components/Dashboard";
 import Apply from "./components/Apply";
 import Details from "./components/Details";
 import Feedback from "./components/Feedback";
@@ -15,6 +14,7 @@ import { AuthProvider } from "./AuthContext";
 import ProtectedRoute from './components/ProtectedRoutes';
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 import ReviewCvs from './components/ReviewCvs';
+import ScheduleMeeting from './components/ScheduleInterviews';
 
 function App() {
   return (
@@ -26,6 +26,7 @@ function App() {
       <Route path="/mentor/signup" element={<SignUp/>}></Route> 
       <Route path="/mentor/signin" element={<SignIn/>}></Route> 
       <Route path="/mentor/dashboard/review-cvs" element={<ReviewCvs/>}></Route> 
+      <Route path="/mentor/dashboard/schedule" element={<ScheduleMeeting/>}></Route> 
       {/* <Route path='/mentor/dashboard' element={<Dashboard/>}></Route> */}
       <Route path="/mentor/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
       <Route path="/" element={<Home />}></Route>

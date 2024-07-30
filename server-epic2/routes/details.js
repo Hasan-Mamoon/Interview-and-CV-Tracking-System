@@ -26,4 +26,15 @@ app.post("/student-details", async (req, res) => {
   }
 });
 
+app.get("/student-details",async (req, res) => {
+  try {
+    const details = await detailModel.find();
+    return res.json({ success: true, data: details });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+});
+
 export default app;

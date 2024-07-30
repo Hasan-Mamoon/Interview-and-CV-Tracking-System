@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import  {mentor} from "../models/mentor.js";
+import { meeting } from "../models/meeting.js";
 import express from "express";
 import jwt from "jsonwebtoken";
 
@@ -75,6 +76,19 @@ router.post("/mentor/signup", async (req, res) => {
     return res.json({ success: true, message: "Mentor Registered" });
   } catch (err) {
     return res.json(err);
+  }
+});
+
+router.post('/schedule-meeting', async (req, res) => {
+  const { title, date, participants } = req.body;
+
+  try {
+    const newMeeting = new meeting({ title, date, participants });
+    await newMeeting.save();
+    res.status(200).json({ success: true, message: 'Meeting scheduled successfully' });
+  } catch (error) {
+    console.error('Error scheduling meeting:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 

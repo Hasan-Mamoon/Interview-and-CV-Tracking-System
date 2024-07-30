@@ -26,4 +26,15 @@ app.post("/for-interview", async (req, res) => {
   }
 });
 
+app.get("/for-interview",async (req, res) => {
+  try {
+    const details = await applyModel.find();
+    return res.json({ success: true, data: details });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+});
+
 export default app;

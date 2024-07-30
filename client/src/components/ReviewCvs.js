@@ -7,17 +7,17 @@ import { Card } from "@mui/material";
 import {Grid} from "@mui/material";
 import {Container} from '@mui/material';
 import {CardContent} from '@mui/material';
-import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 export default function ReviewCvs() {
+
     const [details, setDetails] = useState([]);
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
         const response = await axios.get('http://localhost:3045/apply/for-interview');
-        setDetails(response.data);
+        setDetails(response.data.data);
       } catch (error) {
         console.error('Error fetching details:', error);
       }
@@ -28,7 +28,7 @@ export default function ReviewCvs() {
   return (
     <Container>
       <Typography variant="h2" gutterBottom align="center">
-        User Details
+        Available Cvs
       </Typography>
       <Grid container spacing={3}>
         {details.map((detail) => (
@@ -36,16 +36,15 @@ export default function ReviewCvs() {
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="h5" component="div">
-                  {/* {detail.username} */}
-                  ALI
+                  {detail.firstname}
                 </Typography>
                 <Typography color="text.secondary" variant="body2">
                   {detail.email}
                 </Typography>
                 <Box sx={{ mt: 2 }}>
-                  <Typography variant="body1">Contact Information: {detail.uploadedDetails.email}</Typography>
-                  <Typography variant="body1">Educational Background: {detail.uploadedDetails.grade}</Typography>
-                  <Typography variant="body1">Resume: <a href={detail.uploadedDetails.mockInterviews} target="_blank" rel="noopener noreferrer">View</a></Typography>
+                  <Typography variant="body1">Contact Information: {detail.email}</Typography>
+                  <Typography variant="body1">Educational Background: {detail.grade}</Typography>
+                  <Typography variant="body1">Resume: <a href={detail.mockInterviews} target="_blank" rel="noopener noreferrer">View</a></Typography>
                 </Box>
               </CardContent>
             </Card>
