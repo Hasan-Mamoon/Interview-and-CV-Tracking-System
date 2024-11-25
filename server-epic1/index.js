@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import {mentorRouter} from "./routes/auth.js";
+import { applicantrouter } from "./routes/applicantdata.js";
 //import { ApplicantRouter } from "./routes/applicantdata.js";
 //import StudentRouter from "./Routes/studentRoutes.js";
 
@@ -34,6 +35,7 @@ app.use(
   })
 );
 app.use("/auth", mentorRouter);
+app.use("/appdata",applicantrouter);
 //app.use("/applicant",ApplicantRouter);
 //app.use("/student", StudentRouter);
 
