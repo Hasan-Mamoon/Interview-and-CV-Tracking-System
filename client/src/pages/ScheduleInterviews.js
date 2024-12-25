@@ -1,10 +1,10 @@
-// src/ScheduleMeeting.js
+// src/ScheduledMeeting.js
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export default function ScheduleMeeting() {
+export default function ScheduledMeeting() {
   const [meetingData, setMeetingData] = useState({
     title: '',
     date: '',

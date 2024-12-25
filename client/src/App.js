@@ -1,16 +1,16 @@
 //import logo from './logo.svg';
 import './App.css';
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp';
-import Dashboard from './components/Dashboard';
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp';
+import Dashboard from './pages/Dashboard';
 
 // import Home from "./components/Home";
 
 import { AuthProvider } from "./AuthContext";
 import ProtectedRoute from './components/ProtectedRoutes';
 import {BrowserRouter,Routes,Route} from "react-router-dom"
-import ReviewCvs from './components/ReviewCvs';
-import ScheduleMeeting from './components/ScheduleInterviews';
+import ReviewCvs from './pages/ReviewCvs';
+import ScheduleMeeting from "./pages/ScheduleInterviews";
 
 function App() {
   return (
