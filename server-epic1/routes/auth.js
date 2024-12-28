@@ -80,10 +80,10 @@ router.post("/mentor/signup", async (req, res) => {
 });
 
 router.post('/schedule-meeting', async (req, res) => {
-  const { title, date, participants } = req.body;
+  const { title,url, date,time, participants } = req.body;
 
   try {
-    const newMeeting = new meeting({ title, date, participants });
+    const newMeeting = new meeting({ title, url, date,time, participants });
     await newMeeting.save();
     res.status(200).json({ success: true, message: 'Meeting scheduled successfully' });
   } catch (error) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Card, Box, Stack, Chip, Grid, Divider, CssBaseline } from "@mui/material";
+import { Typography, Box, CssBaseline } from "@mui/material";
 import ResponsiveAppBar from "../components/Appbar";
 import ResponsiveDrawer from "../components/PermanentDrawer";
 import { Outlet, useLocation } from "react-router-dom";

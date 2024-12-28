@@ -157,6 +157,11 @@ export default function ReviewCvs() {
                       variant="contained"
                       color="primary"
                       onClick={() => handleScheduleInterview(detail._id)}
+                      sx={{
+                        width: '150px', 
+                        height: '50px', 
+                         
+                      }}
                     >
                       Schedule Interview
                     </Button>
@@ -164,6 +169,11 @@ export default function ReviewCvs() {
                       variant="outlined"
                       color="error"
                       onClick={() => handleRejectCandidate(detail._id)}
+                      sx={{
+                        width: '150px', 
+                        height: '50px', 
+                        
+                      }}
                     >
                       Reject Candidate
                     </Button>

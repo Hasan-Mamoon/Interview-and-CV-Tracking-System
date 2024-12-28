@@ -53,6 +53,15 @@ export default function ScheduledMeeting() {
           <TextField
             fullWidth
             margin="normal"
+            label="Meeting Url"
+            name="meeting-url"
+            value={meetingData.title}
+            onChange={handleChange}
+            required
+          />
+          <TextField
+            fullWidth
+            margin="normal"
             label="Date"
             name="date"
             type="date"

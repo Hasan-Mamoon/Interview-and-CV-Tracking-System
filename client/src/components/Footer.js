@@ -112,7 +112,7 @@ const Footer = () => {
         flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'center',
-        mt: marginTop, // Dynamically calculated margin-top
+        //mt: marginTop, // Dynamically calculated margin-top
         backgroundColor: theme.palette.background.default, // Optional: Add a background color based on theme
         width: '100%', // Ensure the footer takes full width
       }}
