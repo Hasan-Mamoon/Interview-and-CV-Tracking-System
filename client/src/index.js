@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createTheme } from '@mui/material/styles';
 import { AppProvider } from '@toolpad/core/AppProvider';
+import { CandidateProvider } from './Context/CandidateContext';
 
 
 const demoTheme = createTheme({
@@ -26,9 +27,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
   <React.StrictMode>
-  <AppProvider theme={demoTheme}>
-    <App />
-    </AppProvider>
+    <CandidateProvider>
+      <AppProvider theme={demoTheme}>
+        <App />
+      </AppProvider>
+    </CandidateProvider>
   </React.StrictMode>
 );
 
