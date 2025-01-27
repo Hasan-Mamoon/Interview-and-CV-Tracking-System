@@ -4,9 +4,11 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 
+
 // import Home from "./components/Home";
 
-import { AuthProvider } from "./AuthContext";
+// import { AuthProvider } from './Context/AuthContext';
+import { useAuth } from './Context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoutes';
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 import ReviewCvs from './pages/ReviewCvs';
@@ -15,7 +17,7 @@ import ScheduleMeeting from "./pages/ScheduleInterviews";
 function App() {
   return (
     <>
-    <AuthProvider>
+    <useAuth>
     <BrowserRouter>
     
     <Routes>
@@ -47,7 +49,7 @@ function App() {
     </Routes>
         
     </BrowserRouter>
-    </AuthProvider>
+    </useAuth>
     </>
    
 

@@ -3,8 +3,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import {mentorRouter} from "./routes/auth.js";
+import {authRouter} from "./routes/auth.js";
 import { applicantrouter } from "./routes/applicantdata.js";
+import { useRouter } from "./routes/userRoutes.js";
 //import { ApplicantRouter } from "./routes/applicantdata.js";
 //import StudentRouter from "./Routes/studentRoutes.js";
 
@@ -34,7 +35,8 @@ app.use(
     credentials: true,
   })
 );
-app.use("/auth", mentorRouter);
+app.use("/auth", authRouter);
+app.use('/user',useRouter)
 app.use("/appdata",applicantrouter);
 //app.use("/applicant",ApplicantRouter);
 //app.use("/student", StudentRouter);
