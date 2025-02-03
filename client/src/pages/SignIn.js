@@ -12,49 +12,53 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
+import { UserContext } from '../Context/UserContext';
 
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const {setAuth} = useContext(AuthContext);
-  
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const { dispatch } = useContext(AuthContext);
+  const user = useContext(UserContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try{
-
-    const response = await fetch("http://localhost:3070/auth/mentor/signin", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-      credentials:'include'
-    });
-    if(response.ok){
-      console.log("OK")
-      const response2 = await axios.get("http://localhost:3070/auth/mentor/check-auth",{
-        withCredentials:true,
+    try {
+      const response = await fetch("http://localhost:3070/auth/signin", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include' // Include cookies in the request
       });
-      setAuth({loggedIn: response2.data.loggedIn, loading: false })
-      navigate("/mentor/dashboard")
-    } else{
-      alert("Invalid Credentials")
-      console.log("login failed");
-    }}
 
-    catch(err){
+      if (response.ok) {
+        const data = await response.json();
+        const userdata = data.User;
+        console.log("User data", userdata);
+        
+        //console.log("DATAA", user);
+        user.setUser(userdata);
+        dispatch({ type: 'LOGIN', payload: data });
+        if(data.User.role === "mentor"){
+            navigate("/mentor/dashboard");
+        } else{
+          console.log("applicant"); // -------------------CHANGE After creating applicant dashboard------------------
+        }
+      } else {
+        setError("Invalid Credentials");
+        console.log("Login failed");
+      }
+    } catch (err) {
       console.error(err);
-      alert(err);
+      setError("An error occurred. Please try again.");
     }
   };
 

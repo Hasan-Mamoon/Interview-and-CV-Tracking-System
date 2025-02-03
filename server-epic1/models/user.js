@@ -43,19 +43,25 @@ userSchema.statics.signup = async function (email, password, firstname, lastname
   console.log("email: ",email,"pass: ", password, role);
   //validate fields
   if (!email || !password || !role) {
-    throw Error("All fields must be filled");
+    const error = new Error("All fields must be filled");
+    error.code = 400;
+    throw error;
   }
 
 
   // validate email format
   if (!emailPattern.test(email)) {
-    throw Error("Email format is not valid");
+    const error = new Error("Email format is not valid");
+    error.code = 400;
+    throw error;
   }
 
   // Split and check email domain parts
   const emailParts = email.split("@");
   if (emailParts.length !== 2) {
-    throw Error("Invalid email structure");
+    const error = new Error("Invalid email structure");
+    error.code = 400;
+    throw error;
   }
 
   const [localPart, domain] = emailParts;
@@ -64,12 +70,16 @@ userSchema.statics.signup = async function (email, password, firstname, lastname
   // check for invalid domain
   const domainString = domainParts.join(".");
   if (/(\.\w+)\1/.test(domainString)) {
-    throw Error("Email contains repetitive domain patterns like .com.com");
+    const error = new Error("Email contains repetitive domain patterns like .com.com");
+    error.code = 400;
+    throw error;
   }
 
   // Check local part length
   if (localPart.length < 2 || localPart.length > 64) {
-    throw Error("Email local part must be between 2 and 64 characters long");
+    const error = new Error("Local part of the email must be between 2 and 64 characters");
+    error.code = 400;
+    throw error;
   }
 
   // Check domain parts length and number
@@ -77,36 +87,50 @@ userSchema.statics.signup = async function (email, password, firstname, lastname
     domainParts.length < 2 ||
     domainParts.some((part) => part.length < 2 || part.length > 63)
   ) {
-    throw Error("Invalid email domain structure");
+    
+    const error = new Error("Local part of the email must be between 2 and 64 characters");
+    error.code = 400;
+    throw error;
   }
 
   // Stronger email validations for TLD and subdomains
   const tld = domainParts[domainParts.length - 1];
   if (!/^[a-zA-Z]{2,}$/.test(tld)) {
-    throw Error("Invalid top-level domain in email");
+    const error = new Error("Invalid top-level domain in email");
+    error.code = 400;
+    throw error;
   }
 
   // Additional checks using validator
   if (!isEmail(email)) {
-    throw Error("Email is not valid");
+    const error = new Error("Email not valid");
+    error.code = 400;
+    throw error;
+    
   }
 
   // Password strength validation
   if (!isStrongPassword(password)) {
-    throw Error("Password is not strong enough");
+    const error = new Error("Password not strong");
+    error.code = 400;
+    throw error;
   }
 
   //unique constraints
 
   console.log("role: ",role);
   if (!["mentor", "applicant"].includes(role)) {
-    throw Error("Invalid role");
+    const error = new Error("Invalid role");
+    error.code = 400;
+    throw error;
   }
 
   const exists = await this.findOne({ email });
 
   if (exists) {
-    throw Error("Email already in use");
+    const error = new Error("Email already exists");
+    error.code = 409;
+    throw error;
   }
 
   // Hash password and create user
@@ -126,19 +150,25 @@ userSchema.statics.signup = async function (email, password, firstname, lastname
 //static login method
 userSchema.statics.login = async function (email, password) {
   if (!email || !password) {
-    throw Error("All fields must be filled");
+    const error = new Error("All fields must be filled");
+    error.code = 400;
+    throw error;
   }
 
   const user = await this.findOne({ email });
 
   if (!user) {
-    throw Error("Incorrect email");
+    const error = new Error("User not Found");
+    error.code = 404;
+    throw error;
   }
 
   const match = await compare(password, user.password);
 
   if (!match) {
-    throw Error("Incorrect password");
+    const error = new Error("Unauthorized");
+    error.code = 401;
+    throw error;
   }
 
   return user;

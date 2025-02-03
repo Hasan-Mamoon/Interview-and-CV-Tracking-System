@@ -1,4 +1,5 @@
 import express from "express";
+import { authRouter } from "./auth.js";
 import { mentor } from "../models/mentor.js";
 
 const router = express.Router();
@@ -41,7 +42,7 @@ router.post("/mentor/signup", async (req, res) => {
   }
 });
 
-router.post('/schedule-meeting', async (req, res) => {
+router.post('/schedule-meeting', authRouter.authenticate(['mentor']),async (req, res) => {
   const { title,url, date,time, participants } = req.body;
 
   try {

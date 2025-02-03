@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Typography, Box, CssBaseline } from "@mui/material";
 import ResponsiveAppBar from "../components/Appbar";
 import ResponsiveDrawer from "../components/PermanentDrawer";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 import DashboardCards from "../components/DashboardCards";
+import { UserContext, UserProvider } from "../Context/UserContext";
 
 
 // Reusable Card Component
@@ -23,8 +24,10 @@ import DashboardCards from "../components/DashboardCards";
 // );
 
 const Dashboard = () => {
+  const user = useContext(UserContext);
   const location = useLocation();
   const isRoot = location.pathname === "/mentor/dashboard";
+  
 
   const today = new Date();
   const formattedDate = today.toLocaleDateString('en-US', {
@@ -45,7 +48,9 @@ const Dashboard = () => {
             <>
               <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mb: 5 }}>
                 <Typography variant="h4" gutterBottom>
-                  Welcome, Mr Ali
+                  Welcome, Mr {user.user.firstname}
+                  {console.log("Dashboard: candidate.firstname", user)}
+                  
                 </Typography>
                 <Typography variant="h6" gutterBottom sx={{ color: "text.secondary", mb: 5 }}>
                   Today is {formattedDate}

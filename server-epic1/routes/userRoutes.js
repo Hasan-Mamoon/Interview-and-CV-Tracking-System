@@ -77,10 +77,10 @@ const router = express.Router();
     
         // Create token
     
-        res.status(200).json({ email, role: newUser.role });
+        return res.status(201).json({ success: true, message: "Mentor Registered", user: newUser });
         } catch (error) {
-        console.error(error);
-        res.status(400).json({ error: error.message });
+            console.error('Error signing up:', error);
+            return res.status(error.code || 500).json({ success: false, message: error.message });
         }
     });
   

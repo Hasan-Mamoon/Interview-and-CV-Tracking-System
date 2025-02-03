@@ -1,50 +1,52 @@
-// // src/AuthContext.js
-// import React, { createContext, useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// export const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//   const [auth, setAuth] = useState({ loggedIn: false, loading: true });
-
-//   useEffect(() => {
-//     console.log("IFDKDK");
-//     const checkAuth = async () => {
-//       try {
-//         const response = await axios.get("http://localhost:3070/auth/mentor/check-auth");
-        
-//         console.log(response.data);
-//         setAuth({ loggedIn: response.data.loggedIn, loading: false });
-//       } catch (error) {
-//         setAuth({ loggedIn: false, loading: false });
-//       }
-//     };
-
-//     checkAuth();
-//   }, []);
-
-
-//   return (
-//     <AuthContext.Provider value={{ auth, setAuth }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
-import { createContext, useReducer, useEffect, useContext } from "react";
+import React, { createContext, useReducer, useEffect } from 'react';
+import axios from 'axios';
 
 // Create AuthContext
 export const AuthContext = createContext();
 
 // Reducer function to manage authentication state
+// Reducer function to manage authentication state
 export const authReducer = (state, action) => {
+  console.log("Previous state:", state);
+  console.log("Action:", action);
+
   switch (action.type) {
     case "LOGIN":
-      return { user: action.payload };
+      console.log("LOGIN action.payload:", action.payload);
+      const newStateLogin = { user: action.payload };
+      console.log("New state after LOGIN:", newStateLogin);
+      return newStateLogin;
     case "LOGOUT":
-      return { user: null };
+      const newStateLogout = { user: null };
+      console.log("New state after LOGOUT:", newStateLogout);
+      return newStateLogout;
     default:
       return state;
+  }
+};
+
+
+// Function to validate token
+const validateToken = async () => {
+  try {
+    const response = await axios.post("http://localhost:3070/auth/validate-token", {}, { withCredentials: true });
+    console.log("validateToken response:", response.data);
+    return response.data.user;
+  } catch (error) {
+    console.error("Token validation failed:", error);
+    return null;
+  }
+};
+
+// Function to refresh token
+const refreshToken = async () => {
+  try {
+    const response = await axios.post("http://localhost:3070/auth/refresh-token", {}, { withCredentials: true });
+    console.log("refreshToken response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Token refresh failed:", error);
+    return null;
   }
 };
 
@@ -54,34 +56,39 @@ export const AuthContextProvider = ({ children }) => {
     user: null, // Initial state
   });
 
-  // Load user data from localStorage when the app is initialized
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      dispatch({ type: "LOGIN", payload: user });
-    }
+    const checkAuth = async () => {
+      try {
+        // Validate the token and set the user state
+        const user = await validateToken();
+        if (user) {
+          console.log("USER TK: ", user);
+          dispatch({ type: "LOGIN", payload: user });
+        } else {
+          console.log("USER TK no: ", user);
+          dispatch({ type: "LOGOUT" });
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+      }
+    };
+
+    checkAuth();
+
+    // Set up a timer to refresh the token before it expires
+    const interval = setInterval(async () => {
+      const result = await refreshToken();
+      if (!result) {
+        dispatch({ type: "LOGOUT" });
+      }
+    }, 1 * 60 * 1000); // Refresh token every 14 minutes
+
+    return () => clearInterval(interval);
   }, []);
 
-  // Save the user to localStorage whenever the user state changes
-  useEffect(() => {
-    if (state.user) {
-      localStorage.setItem("user", JSON.stringify(state.user));
-    } else {
-      localStorage.removeItem("user");
-    }
-  }, [state.user]);
-
-  // For debugging: Print the auth context state
-  console.log("AuthContext state:", state);
-
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider value={{ auth: state, dispatch }}>
       {children}
     </AuthContext.Provider>
   );
-};
-
-// Custom hook to use AuthContext in components
-export const useAuth = () => {
-  return useContext(AuthContext);
 };
