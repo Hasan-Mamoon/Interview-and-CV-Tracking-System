@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Box, CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -6,9 +6,11 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import HistoryToggleOffIcon from '@mui/icons-material/HistoryToggleOff';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 
+
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+  
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
@@ -22,8 +24,8 @@ function ResponsiveDrawer(props) {
       case "Review CVs":
         navigate("/mentor/dashboard/review-cvs");
         break;
-      case "Schedule Interviews":
-        navigate("/mentor/dashboard/schedule");
+      case "Scheduled Interviews":
+        navigate("/mentor/dashboard/scheduled-interviews/");
         break;
       default:
         break;
@@ -35,14 +37,14 @@ function ResponsiveDrawer(props) {
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Review CVs", "Schedule Interviews"].map((text, index) => (
+        {["Home", "Review CVs", "Scheduled Interviews"].map((text, index) => (
           <ListItem
             key={text}
             disablePadding
             selected={
               (text === "Home" && location.pathname === "/mentor/dashboard") ||
               (text === "Review CVs" && location.pathname === "/mentor/dashboard/review-cvs") ||
-              (text === "Schedule Interviews" && location.pathname === "/mentor/dashboard/schedule")
+              (text === "Scheduled Interviews" && location.pathname === "/mentor/dashboard/scheduled-interviews/")
             }
             sx={{
               '&.Mui-selected': {

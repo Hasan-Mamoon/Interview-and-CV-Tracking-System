@@ -1,5 +1,5 @@
 import express from "express";
-import { authRouter } from "./auth.js";
+import bcrypt from 'bcrypt';
 import { mentor } from "../models/mentor.js";
 
 const router = express.Router();
@@ -42,17 +42,7 @@ router.post("/mentor/signup", async (req, res) => {
   }
 });
 
-router.post('/schedule-meeting', authRouter.authenticate(['mentor']),async (req, res) => {
-  const { title,url, date,time, participants } = req.body;
 
-  try {
-    const newMeeting = new meeting({ title, url, date,time, participants });
-    await newMeeting.save();
-    res.status(200).json({ success: true, message: 'Meeting scheduled successfully' });
-  } catch (error) {
-    console.error('Error scheduling meeting:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
-});
 
 export {router as mentorRouter};
+//authRouter.authenticate(['mentor'])

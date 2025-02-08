@@ -81,7 +81,7 @@ export const AuthContextProvider = ({ children }) => {
       if (!result) {
         dispatch({ type: "LOGOUT" });
       }
-    }, 1 * 60 * 1000); // Refresh token every 14 minutes
+    }, 14 * 60 * 1000); // Refresh token every 14 minutes
 
     return () => clearInterval(interval);
   }, []);

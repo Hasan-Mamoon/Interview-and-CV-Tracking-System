@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import {authRouter} from "./routes/auth.js";
 import { applicantrouter } from "./routes/applicantdata.js";
 import { useRouter } from "./routes/userRoutes.js";
+import { meetingRouter } from "./routes/meetingRoutes.js";
 //import { ApplicantRouter } from "./routes/applicantdata.js";
 //import StudentRouter from "./Routes/studentRoutes.js";
 
@@ -38,6 +39,7 @@ app.use(
 app.use("/auth", authRouter);
 app.use('/user',useRouter)
 app.use("/appdata",applicantrouter);
+app.use("/meetings", meetingRouter);
 //app.use("/applicant",ApplicantRouter);
 //app.use("/student", StudentRouter);
 

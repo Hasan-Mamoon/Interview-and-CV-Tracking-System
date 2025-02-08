@@ -1,22 +1,28 @@
-import React, { useState, useContext } from 'react';
-import { Container, Box, Typography, TextField, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { CandidateContext } from '../Context/CandidateContext';
+import React, { useState, useContext } from "react";
+import { Container, Box, Typography, TextField, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserContext } from "../Context/UserContext";
+import { CandidateContext } from "../Context/CandidateContext";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import dayjs from "dayjs";
 
 const ScheduleInterviews = () => {
-  
-
-  const { candidateId,candidateEmail } = useContext(CandidateContext); // Get candidate ID from context
-  const [meetingData, setMeetingData] = useState({
-    title: '',
-    url: '',
-    date: '',
-    time: '',
-    participants: candidateEmail + ", ",
-  });
-  
+  const { candidateEmail } = useContext(CandidateContext); // Get candidate ID from context
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const [meetingData, setMeetingData] = useState({
+    title: "",
+    url: "",
+    date: null,
+    time: null,
+    interviewee: candidateEmail,
+    participants: user.email +", "+ candidateEmail,
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,19 +32,74 @@ const ScheduleInterviews = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://localhost:3070/auth/schedule-meeting', meetingData);
-      await axios.put(`http://localhost:3070/appdata/update-status/${candidateId}`, { status: 'scheduled' });
-      alert('Meeting scheduled successfully');
-      navigate('/mentor/dashboard'); // Redirect to the dashboard or another page
-    } catch (error) {
-      console.error('Error scheduling meeting:', error);
-      alert('Error scheduling meeting');
-    }
+  const handleDateChange = (date) => {
+    setMeetingData({
+      ...meetingData,
+      date,
+      
+    });
+    console.log("date",meetingData.date);
+    
   };
 
+  const handleTimeChange = (time) => {
+    setMeetingData({
+      ...meetingData,
+      time,
+    });
+    console.log("time",meetingData.time);
+  };
+
+  const generateMeetingUrl = () => {
+    if (meetingData.title && meetingData.date && meetingData.time) {
+      const formattedDate = dayjs(meetingData.date).format("YYYYMMDD");
+      const formattedTime = dayjs(meetingData.time).format("HHmm");
+      const roomName = `${meetingData.title}-${formattedDate}-${formattedTime}`;
+      return `https://meet.jit.si/${roomName}`;
+    }
+    return "";
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!meetingData.date || !meetingData.time) {
+      alert("Please select both date and time.");
+      return;
+    }
+  
+    // Merge date and time
+    const finalDateTime = dayjs(meetingData.date)
+      .hour(dayjs(meetingData.time).hour())
+      .minute(dayjs(meetingData.time).minute())
+      .second(0) // Reset seconds
+      .millisecond(0) // Reset milliseconds
+      .toISOString(); // Convert to standard format
+  
+    console.log("Final Merged Date-Time:", finalDateTime);
+  
+    const meetingUrl = generateMeetingUrl();
+    try {
+      const finalMeetingData = {
+        ...meetingData,
+        date: finalDateTime, // Store merged timestamp
+        url: meetingUrl,
+      };
+  
+      await axios.post(
+        "http://localhost:3070/meetings/schedule-meeting",
+        finalMeetingData,
+        { withCredentials: true }
+      );
+  
+      alert("Meeting scheduled successfully");
+      navigate("/mentor/dashboard");
+    } catch (error) {
+      console.error("Error scheduling meeting:", error);
+      alert("Failed to schedule meeting");
+    }
+  };
+  
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 4 }}>
@@ -55,33 +116,24 @@ const ScheduleInterviews = () => {
             onChange={handleChange}
             required
           />
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Meeting Url"
-            name="url"
-            value={meetingData.url}
-            onChange={handleChange}
-            required
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Date"
-            name="date"
-            value={meetingData.date}
-            onChange={handleChange}
-            required
-          />
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Time"
-            name="time"
-            value={meetingData.time}
-            onChange={handleChange}
-            required
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Meeting Date"
+              value={meetingData.date}
+              onChange={handleDateChange}
+              renderInput={(params) => <TextField {...params} fullWidth required sx={{ mb: 2 }} />}
+            />
+          </LocalizationProvider>
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TimePicker
+              label="Meeting Time"
+              value={meetingData.time}
+              onChange={handleTimeChange}
+              renderInput={(params) => <TextField {...params} fullWidth required sx={{ mb: 2 }} />}
+            />
+          </LocalizationProvider>
+
           <TextField
             fullWidth
             margin="normal"
@@ -91,6 +143,11 @@ const ScheduleInterviews = () => {
             onChange={handleChange}
             required
           />
+
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            Meeting Link: <strong>{generateMeetingUrl()}</strong>
+          </Typography>
+
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
             Schedule Meeting
           </Button>

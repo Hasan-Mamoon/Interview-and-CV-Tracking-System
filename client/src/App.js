@@ -9,6 +9,8 @@ import ReviewCvs from './pages/ReviewCvs';
 import ScheduleMeeting from './pages/ScheduleInterviews';
 import ProtectedRoute from './components/ProtectedRoutes';
 import { UserProvider } from './Context/UserContext';
+import JitsiMeet from './components/JitsiMeet';
+import ScheduledInterviews from './pages/ScheduledInterviews';
 
 function App() {
   return (
@@ -19,9 +21,11 @@ function App() {
           <Routes>
             <Route path="/user/signup" element={<SignUp />} />
             <Route path="/user/signin" element={<SignIn />} />
+            <Route path="/mentor/jitsi" element={<JitsiMeet />} />
             <Route path="/mentor/dashboard" element={<ProtectedRoute element={<Dashboard />} />}>
               <Route path="review-cvs" element={<ReviewCvs />} />
               <Route path="schedule" element={<ScheduleMeeting />} />
+              <Route path="scheduled-interviews" element={<ScheduledInterviews />} />
             </Route>
           </Routes>
         </BrowserRouter>
