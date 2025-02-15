@@ -1,206 +1,3 @@
-// import React, { useContext, useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { Card, CardContent, Typography, Grid, CircularProgress, Alert } from '@mui/material';
-// import { UserContext } from '../Context/UserContext';
-
-// const ScheduledInterviews = () => {
-   
-//     const [interviews, setInterviews] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-//     const user = useContext(UserContext);
-
-//     useEffect(() => {
-//         const fetchInterviews = async () => {
-//             try {
-//                 const response = await axios.get(`http://localhost:3070/meetings/${user.user.email}`);
-//                 setInterviews(response.data);
-//             } catch (err) {
-//                 setError(err.message);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchInterviews();
-//     }, []);
-
-//     if (loading) return <CircularProgress />;
-//     if (error) return <Alert severity="error">{error}</Alert>;
-
-//     return (
-//         <div>
-//             <Typography variant="h4" gutterBottom>
-//                 Scheduled Interviews
-//             </Typography>
-//             <Grid container spacing={3}>
-//                 {interviews.map((interview) => (
-//                     <Grid item xs={12} sm={6} md={4} key={interview.id}>
-//                         <Card>
-//                             <CardContent>
-//                                 <Typography variant="h5" component="div">
-//                                     {interview.title}
-//                                 </Typography>
-//                                 <Typography color="textSecondary">
-//                                     {interview.date} at {interview.time}
-//                                 </Typography>
-//                                 <Typography variant="body2" component="p">
-//                                     Candidate: {interview.candidateName}
-//                                 </Typography>
-//                             </CardContent>
-//                         </Card>
-//                     </Grid>
-//                 ))}
-//             </Grid>
-//         </div>
-//     );
-// };
-
-// export default ScheduledInterviews;
-
-//import React, { useContext, useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { Card, CardContent, Typography, Grid, CircularProgress, Alert } from '@mui/material';
-// import { UserContext } from '../Context/UserContext';
-// import dayjs from 'dayjs';
-
-// const ScheduledInterviews = () => {
-//     const [interviews, setInterviews] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-//     const user = useContext(UserContext);
-
-//     useEffect(() => {
-//         const fetchInterviews = async () => {
-//             try {
-//                 const response = await axios.get(`http://localhost:3070/meetings/${user.user.email}`);
-//                 setInterviews(response.data);
-//             } catch (err) {
-//                 setError(err.message);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchInterviews();
-//     }, []);
-
-//     if (loading) return <CircularProgress />;
-//     if (error) return <Alert severity="error">{error}</Alert>;
-
-//     return (
-//         <div>
-//             <Typography variant="h4" gutterBottom>
-//                 Scheduled Interviews
-//             </Typography>
-//             <Grid container spacing={3}>
-//                 {interviews.map((interview) => {
-//                     // Extract date part only
-//                     const formattedDate = dayjs(interview.date).format('YYYY-MM-DD');
-//                     // Extract time part only
-//                     const formattedTime = dayjs(interview.time).format('HH:mm A');
-
-//                     return (
-//                         <Grid item xs={12} sm={6} md={4} key={interview.id}>
-//                             <Card>
-//                                 <CardContent>
-//                                     <Typography variant="h5" component="div">
-//                                         {interview.title}
-//                                     </Typography>
-//                                     <Typography color="textSecondary">
-//                                         {formattedDate} at {formattedTime}
-//                                     </Typography>
-//                                     <Typography variant="body2" component="p">
-//                                         Candidate: {interview.candidateName}
-//                                     </Typography>
-//                                 </CardContent>
-//                             </Card>
-//                         </Grid>
-//                     );
-//                 })}
-//             </Grid>
-//         </div>
-//     );
-// };
-
-// export default ScheduledInterviews;
-
-
-// import React, { useContext, useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { Card, CardContent, Typography, Grid, CircularProgress, Alert, Link } from '@mui/material';
-// import { UserContext } from '../Context/UserContext';
-// import dayjs from 'dayjs';
-
-// const ScheduledInterviews = () => {
-//     const [interviews, setInterviews] = useState([]);
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(null);
-//     const user = useContext(UserContext);
-
-//     useEffect(() => {
-//         const fetchInterviews = async () => {
-//             try {
-//                 const response = await axios.get(`http://localhost:3070/meetings/${user.user.email}`);
-//                 setInterviews(response.data);
-//             } catch (err) {
-//                 setError(err.message);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchInterviews();
-//     }, []);
-
-//     if (loading) return <CircularProgress />;
-//     if (error) return <Alert severity="error">{error}</Alert>;
-
-//     return (
-//         <div>
-//             <Typography variant="h4" gutterBottom>
-//                 Scheduled Interviews
-//             </Typography>
-//             <Grid container spacing={3}>
-//                 {interviews.map((interview) => {
-//                     // Extract date part only
-//                     const formattedDate = dayjs(interview.date).format('YYYY-MM-DD');
-//                     // Extract time part only
-//                     const formattedTime = dayjs(interview.time).format('hh:mm A');
-//                     // Format participants as a readable list
-//                     const participantsList = interview.participants?.join(", ") || "Not Available";
-
-//                     return (
-//                         <Grid item xs={12} sm={6} md={4} key={interview._id}>
-//                             <Card>
-//                                 <CardContent>
-//                                     <Typography variant="h5" component="div">
-//                                         {interview.title}
-//                                     </Typography>
-//                                     <Typography color="textSecondary">
-//                                         {formattedDate} at {formattedTime}
-//                                     </Typography>
-//                                     <Typography variant="body2" component="p">
-//                                         <strong>Participants:</strong> {participantsList}
-//                                     </Typography>
-//                                     <Typography variant="body2" component="p">
-//                                         <strong>Meeting Link:</strong>{' '}
-//                                         <Link href={interview.url} target="_blank" rel="noopener noreferrer">
-//                                             {interview.url}
-//                                         </Link>
-//                                     </Typography>
-//                                 </CardContent>
-//                             </Card>
-//                         </Grid>
-//                     );
-//                 })}
-//             </Grid>
-//         </div>
-//     );
-// };
-
-// export default ScheduledInterviews;
-
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { 
@@ -216,15 +13,17 @@ const ScheduledInterviews = () => {
     const [error, setError] = useState(null);
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedInterview, setSelectedInterview] = useState(null);
+    const [selectedCandidate, setSelectedCandidate] = useState(null);
     const [actionType, setActionType] = useState(null);
     
+    
     const user = useContext(UserContext);
-
     useEffect(() => {
         const fetchInterviews = async () => {
             try {
                 const response = await axios.get(`http://localhost:3070/meetings/${user.user.email}`);
                 setInterviews(response.data);
+                console.log("INTERVIEWS",response.data)
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -233,10 +32,11 @@ const ScheduledInterviews = () => {
         };
 
         fetchInterviews();
-    }, []);
+    }, [user.user.email]);
 
     const handleOpenDialog = (interview, action) => {
         setSelectedInterview(interview);
+        setSelectedCandidate(interview.interviewee);
         setActionType(action);
         setOpenDialog(true);
     };
@@ -251,11 +51,27 @@ const ScheduledInterviews = () => {
         if (!selectedInterview || !actionType) return;
 
         try {
-            await axios.put(`http://localhost:3070/appdata/update-status/${selectedInterview._id}`, {
-                status: actionType
-            });
+
+             await axios.put(
+                `http://localhost:3070/appdata/update-status/${selectedCandidate}`,
+                {
+                    status: actionType,
+                    interview: 'completed'
+                },
+                {
+                    withCredentials: true // Ensures cookies (including token) are sent automatically
+                }
+            );
+            
+        
+
+
+        
+        
+            //console.log("RESPONSE",response.data);
 
             alert(`Candidate ${actionType === 'approved' ? 'approved' : 'rejected'} successfully!`);
+            
 
             // Refresh interviews list after action
             setInterviews((prevInterviews) =>
@@ -289,6 +105,7 @@ const ScheduledInterviews = () => {
                                 <CardContent>
                                     <Typography variant="h5" component="div">
                                         {interview.title}
+                            
                                     </Typography>
                                     <Typography color="textSecondary">
                                         {formattedDate} at {formattedTime}

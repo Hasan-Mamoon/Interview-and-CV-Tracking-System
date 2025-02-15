@@ -1,16 +1,23 @@
 import express from "express";
+import axios from "axios";
 import { user } from "../models/user.js";
+import mongoose from "mongoose";
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
 
 const router = express.Router();
 
 router.get("/applicant-data", async (req, res) => {
   try {
     const email = req.body;
-    const applicantdata = await user.find({role: "applicant",interview:"Not-Scheduled"});
+    const applicantdata = await user.find({
+      role: "applicant",
+      interview: "Not-Scheduled",
+    });
     if (!applicantdata) {
       return res.status(401).json({ message: "Invalid Email" });
     }
-    return res.json(applicantdata); 
+    return res.json(applicantdata);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -18,24 +25,89 @@ router.get("/applicant-data", async (req, res) => {
 });
 
 router.put("/update-status/:email", async (req, res) => {
-  try {
-    const email = req.params.email; // Extract email from URL parameters
-    const { status } = req.body; // Extract status from request body
+  const session = await mongoose.startSession(); // Start transaction session
+  session.startTransaction();
 
-    const applicantdata = await user.findOne({ email: email });
-    if (!applicantdata) {
-      return res.status(401).json({ message: "Invalid Email" });
+  try {
+    const email = req.params.email;
+    const { status, interview } = req.body;
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized: No token found" });
     }
 
-    // Update the user's status
-    applicantdata.interview = status;
-    await applicantdata.save();
+    // const response = await axios.post(
+    //         `http://localhost:3070/auth/validate-token`,
+    //         {}, // No body needed
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${token}`,
+    //             Cookie: `token=${token}`, // Send token as a cookie
+    //           },
+    //           withCredentials: true, // Ensures credentials are sent
+    //         }
+    //       );
+      
+    //       if (response.status !== 200) {
+    //         return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    //       }
+    try {
+      verify(token, process.env.SECRET_KEY);
+    } catch (error) {
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    }
+
+    //Fetch applicant data inside transaction
+    const applicantdata = await user.findOne({ email }).session(session);
+    if (!applicantdata) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update applicant's status inside transaction
+    applicantdata.status = status;
+    applicantdata.interview = interview;
+    await applicantdata.save({ session });
+
+    // If status is "rejected", attempt to delete the meeting inside transaction
+    if (status === "rejected") {
+      try {
+        await axios.delete(`http://localhost:3070/meetings/${email}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Cookie: `token=${token}`, // Send token as a cookie
+          },
+          withCredentials: true, // Ensures credentials are sent
+        });
+
+        console.log("Meeting deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting meeting:", error.response?.data || error.message);
+
+        // Rollback transaction if meeting deletion fails
+        await session.abortTransaction();
+        session.endSession();
+
+        return res.status(500).json({ message: "Failed to delete meeting. Transaction aborted." });
+      }
+    }
+
+    // Commit transaction if everything succeeds
+    await session.commitTransaction();
+    session.endSession();
 
     return res.json({ message: "Status updated successfully", applicantdata });
+
   } catch (err) {
-    console.error(err);
+    console.error("Error updating status:", err);
+
+    // Ensure rollback on unexpected errors
+    await session.abortTransaction();
+    session.endSession();
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-export {router as applicantrouter}
+export { router as applicantrouter };

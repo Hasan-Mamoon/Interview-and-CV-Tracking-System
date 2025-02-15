@@ -11,7 +11,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 
 const ScheduleInterviews = () => {
-  const { candidateEmail } = useContext(CandidateContext); // Get candidate ID from context
+  const { candidateEmail } = useContext(CandidateContext); 
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 

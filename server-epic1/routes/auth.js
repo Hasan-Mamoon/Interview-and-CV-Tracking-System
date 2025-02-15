@@ -9,7 +9,7 @@ const router = express.Router();
 
 const SECRET_KEY = process.env.SECRET_KEY;
 const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
-const TOKEN_EXPIRATION = '2m'; // Token expiration time
+const TOKEN_EXPIRATION = '15m'; // Token expiration time
 const REFRESH_TOKEN_EXPIRATION = '3d'; // Refresh token expiration time
 
 // Login endpoint
