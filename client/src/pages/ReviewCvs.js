@@ -15,7 +15,7 @@ import { CandidateContext } from "../Context/CandidateContext";
 
 export default function ReviewCvs() {
   const [details, setDetails] = useState([]);
-  const [expandedId, setExpandedId] = useState(null); // Track which card is expanded
+  const [expandedId, setExpandedId] = useState(null);
   const navigate = useNavigate();
   const { setCandidateId,setCandidateEmail } = useContext(CandidateContext);
   

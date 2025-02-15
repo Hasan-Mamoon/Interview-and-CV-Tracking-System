@@ -12,7 +12,6 @@ const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
 const TOKEN_EXPIRATION = '15m'; // Token expiration time
 const REFRESH_TOKEN_EXPIRATION = '3d'; // Refresh token expiration time
 
-// Login endpoint
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -28,12 +27,6 @@ router.post('/signin', async (req, res) => {
 
     const token = sign({ email: User.email,firstname: User.firstname,lastname:User.lastname, role: User.role }, SECRET_KEY, { expiresIn: TOKEN_EXPIRATION });
     const refreshToken = sign({ email: User.email,firstname: User.firstname,lastname:User.lastname, role: User.role }, REFRESH_SECRET_KEY, { expiresIn: REFRESH_TOKEN_EXPIRATION });
-
-    // Store refresh token on the server (e.g., in a database or in-memory store)
-    // For simplicity, we'll use an in-memory store here
-    // User.refreshToken = refreshToken;
-    // await User.save();
-
     res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
     res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true, sameSite: 'Strict' });
     res.status(200).json({ message: 'Signed in successfully',User: { email: User.email, firstname: User.firstname,lastname:User.lastname, role: User.role } });
@@ -43,7 +36,7 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-// Token validation endpoint
+
 router.post('/validate-token', (req, res) => {
   const token = req.cookies.token;
   if (!token) {
@@ -57,7 +50,20 @@ router.post('/validate-token', (req, res) => {
   }
 });
 
-// Refresh token endpoint
+router.post('/logout', (req, res) => {
+  try {
+    res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'Strict' });
+    res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'Strict' });
+
+    return res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Error logging out:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+
+
 router.post('/refresh-token', async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) {

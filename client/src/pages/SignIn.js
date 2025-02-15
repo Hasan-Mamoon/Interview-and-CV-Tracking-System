@@ -168,21 +168,21 @@ import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../Context/AuthContext';
 import { UserContext } from '../Context/UserContext';
-import Alert from '@mui/material/Alert'; // ✅ Import Alert component
+import Alert from '@mui/material/Alert';
 
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null); // ✅ Used to display errors
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { dispatch } = useContext(AuthContext);
   const user = useContext(UserContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(null); // ✅ Clear previous error before new request
+    setError(null);
 
     try {
       const response = await fetch("http://localhost:3070/auth/signin", {
@@ -191,7 +191,7 @@ export default function SignInSide() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include' // Include cookies in the request
+        credentials: 'include' 
       });
 
       if (response.ok) {
