@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 import { Container, Box, Typography, TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../Context/UserContext";
 import { CandidateContext } from "../Context/CandidateContext";
+import { AuthContext } from "../Context/AuthContext";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 
 const ScheduleInterviews = () => {
   const { candidateEmail } = useContext(CandidateContext); 
-  const { user } = useContext(UserContext);
+  const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [meetingData, setMeetingData] = useState({
@@ -21,7 +21,7 @@ const ScheduleInterviews = () => {
     date: null,
     time: null,
     interviewee: candidateEmail,
-    participants: user.email +", "+ candidateEmail,
+    participants: auth.user.email +", "+ candidateEmail,
   });
 
   const handleChange = (e) => {

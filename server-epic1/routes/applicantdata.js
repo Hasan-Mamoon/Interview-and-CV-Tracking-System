@@ -3,6 +3,7 @@ import axios from "axios";
 import { user } from "../models/user.js";
 import mongoose from "mongoose";
 import pkg from 'jsonwebtoken';
+import { meeting } from "../models/meeting.js";
 const { verify } = pkg;
 
 const router = express.Router();
@@ -24,6 +25,26 @@ router.get("/applicant-data", async (req, res) => {
   }
 });
 
+router.get("/meetings/count", async (req, res) => {
+  try {
+    const count = await meeting.countDocuments(); // Get total meetings count
+    res.status(200).json({ totalMeetings: count });
+  } catch (error) {
+    console.error("Error counting meetings:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
+router.get("/users/count-pending", async (req, res) => {
+  try {
+    const count = await user.countDocuments({ status: "Pending" }); // Count pending users
+    res.status(200).json({ pendingUsers: count });
+  } catch (error) {
+    console.error("Error counting pending users:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 router.put("/update-status/:email", async (req, res) => {
   const session = await mongoose.startSession(); // Start transaction session
   session.startTransaction();
@@ -36,21 +57,6 @@ router.put("/update-status/:email", async (req, res) => {
       return res.status(401).json({ message: "Unauthorized: No token found" });
     }
 
-    // const response = await axios.post(
-    //         `http://localhost:3070/auth/validate-token`,
-    //         {}, // No body needed
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${token}`,
-    //             Cookie: `token=${token}`, // Send token as a cookie
-    //           },
-    //           withCredentials: true, // Ensures credentials are sent
-    //         }
-    //       );
-      
-    //       if (response.status !== 200) {
-    //         return res.status(401).json({ message: "Unauthorized: Invalid token" });
-    //       }
     try {
       verify(token, process.env.SECRET_KEY);
     } catch (error) {

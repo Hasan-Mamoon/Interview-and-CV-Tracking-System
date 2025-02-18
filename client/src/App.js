@@ -8,14 +8,16 @@ import Dashboard from './pages/Dashboard';
 import ReviewCvs from './pages/ReviewCvs';
 import ScheduleMeeting from './pages/ScheduleInterviews';
 import ProtectedRoute from './components/ProtectedRoutes';
-import { UserProvider } from './Context/UserContext';
 import JitsiMeet from './components/JitsiMeet';
 import ScheduledInterviews from './pages/ScheduledInterviews';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+const defaultTheme = createTheme();
+
 
 function App() {
   return (
+    <ThemeProvider theme={defaultTheme}>
     <AuthContextProvider>
-      <UserProvider>
        <CandidateProvider> 
         <BrowserRouter>
           <Routes>
@@ -30,8 +32,8 @@ function App() {
           </Routes>
         </BrowserRouter>
        </CandidateProvider>
-      </UserProvider>
     </AuthContextProvider>
+    </ThemeProvider>
   );
 }
 

@@ -4,7 +4,8 @@ import {
     Card, CardContent, Typography, Grid, CircularProgress, Alert, Link, 
     Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle 
 } from '@mui/material';
-import { UserContext } from '../Context/UserContext';
+import {AuthContext} from "../Context/AuthContext";
+
 import dayjs from 'dayjs';
 
 const ScheduledInterviews = () => {
@@ -17,11 +18,11 @@ const ScheduledInterviews = () => {
     const [actionType, setActionType] = useState(null);
     
     
-    const user = useContext(UserContext);
+    const auth = useContext(AuthContext);
     useEffect(() => {
         const fetchInterviews = async () => {
             try {
-                const response = await axios.get(`http://localhost:3070/meetings/${user.user.email}`);
+                const response = await axios.get(`http://localhost:3070/meetings/${auth.email}`);
                 setInterviews(response.data);
                 console.log("INTERVIEWS",response.data)
             } catch (err) {
@@ -32,7 +33,7 @@ const ScheduledInterviews = () => {
         };
 
         fetchInterviews();
-    }, [user.user.email]);
+    }, [auth.email]);
 
     const handleOpenDialog = (interview, action) => {
         setSelectedInterview(interview);

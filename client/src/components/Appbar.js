@@ -14,7 +14,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { AuthContext } from '../Context/AuthContext';
-import { UserContext } from '../Context/UserContext';
 
 const pages = ['Home', 'Review Cvs', 'Scheduled Interviews'];
 const settings = ['Logout'];
@@ -22,8 +21,7 @@ const settings = ['Logout'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { dispatch } = React.useContext(AuthContext);
-  const user = React.useContext(UserContext);
+  const { auth,logout } = React.useContext(AuthContext);
   const navigate = useNavigate();
   
   const handleOpenNavMenu = (event) => {
@@ -73,12 +71,7 @@ function ResponsiveAppBar() {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:3070/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      dispatch({ type: "LOGOUT" });
+      await logout();
       navigate("/user/signin");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -175,9 +168,8 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                 <Avatar sx={{ bgcolor: "primary.main", color: "black" }}>
-                {user.user.firstname.charAt(0).toUpperCase()} 
+                {auth.user.firstname.charAt(0).toUpperCase()} 
                 </Avatar>
               </IconButton>
             </Tooltip>
