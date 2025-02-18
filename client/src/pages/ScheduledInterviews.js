@@ -18,11 +18,11 @@ const ScheduledInterviews = () => {
     const [actionType, setActionType] = useState(null);
     
     
-    const auth = useContext(AuthContext);
+    const {auth} = useContext(AuthContext);
     useEffect(() => {
         const fetchInterviews = async () => {
             try {
-                const response = await axios.get(`http://localhost:3070/meetings/${auth.email}`);
+                const response = await axios.get(`http://localhost:3070/meetings/${auth.user.email}`);
                 setInterviews(response.data);
                 console.log("INTERVIEWS",response.data)
             } catch (err) {

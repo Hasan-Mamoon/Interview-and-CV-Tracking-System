@@ -11,12 +11,30 @@ import ProtectedRoute from './components/ProtectedRoutes';
 import JitsiMeet from './components/JitsiMeet';
 import ScheduledInterviews from './pages/ScheduledInterviews';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-const defaultTheme = createTheme();
+
 
 
 function App() {
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark", // ✅ Enable dark mode
+      primary: {
+        main: "#90caf9", // Light blue
+      },
+      background: {
+        default: "#121212", // Dark background
+        paper: "#1e1e1e", // Slightly lighter dark
+      },
+      text: {
+        primary: "#ffffff", // White text
+        secondary: "#b0bec5", // Light gray text
+      },
+    },
+  });
+  
+
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={darkTheme}>
     <AuthContextProvider>
        <CandidateProvider> 
         <BrowserRouter>
