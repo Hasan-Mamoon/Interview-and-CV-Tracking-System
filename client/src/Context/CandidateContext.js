@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState } from "react";
 
 const CandidateContext = createContext();
 
@@ -7,7 +7,9 @@ const CandidateProvider = ({ children }) => {
   const [candidateEmail, setCandidateEmail] = useState(null);
 
   return (
-    <CandidateContext.Provider value={{ candidateId, setCandidateId, candidateEmail, setCandidateEmail }}>
+    <CandidateContext.Provider
+      value={{ candidateId, setCandidateId, candidateEmail, setCandidateEmail }}
+    >
       {children}
     </CandidateContext.Provider>
   );

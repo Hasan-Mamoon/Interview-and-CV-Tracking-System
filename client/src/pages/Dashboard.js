@@ -7,19 +7,17 @@ import Footer from "../components/Footer";
 import DashboardCards from "../components/DashboardCards";
 import { AuthContext } from "../Context/AuthContext";
 
-
 const Dashboard = () => {
-  const {auth} = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const location = useLocation();
   const isRoot = location.pathname === "/mentor/dashboard";
-  
 
   const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  const formattedDate = today.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
   return (
@@ -27,32 +25,39 @@ const Dashboard = () => {
       <CssBaseline />
       <ResponsiveAppBar />
       <ResponsiveDrawer>
-        
         <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 5 }}>
           {isRoot ? (
             <>
-              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mb: 5 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  mb: 5,
+                }}
+              >
                 <Typography variant="h4" gutterBottom>
                   Welcome, Mr {auth.user.firstname}
                   {console.log("Dashboard: candidate.firstname", auth)}
-                  
                 </Typography>
-                <Typography variant="h6" gutterBottom sx={{ color: "text.secondary", mb: 5 }}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{ color: "text.secondary", mb: 5 }}
+                >
                   Today is {formattedDate}
                 </Typography>
-                <DashboardCards/>
+                <DashboardCards />
               </Box>
             </>
           ) : (
             <Outlet />
           )}
-          
         </Box>
-       <Footer/>
+        <Footer />
       </ResponsiveDrawer>
-    </Box> 
+    </Box>
   );
 };
 
 export default Dashboard;
-

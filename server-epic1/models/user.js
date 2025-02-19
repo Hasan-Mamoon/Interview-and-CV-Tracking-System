@@ -1,8 +1,8 @@
 import mongoose, { Schema as _Schema, model } from "mongoose";
 import { genSalt, hash as _hash, compare } from "bcrypt";
-import validator from "validator"; // Import validator as the default export
+import validator from "validator";
 
-const { isEmail, isStrongPassword } = validator; // Destructure the required methods
+const { isEmail, isStrongPassword } = validator;
 
 const Schema = _Schema;
 
@@ -27,15 +27,6 @@ const userSchema = new Schema({
   interview: { type: String },
   cv:{type:String},
 });
-
-// userSchema.pre('save', function (next) {
-//   if (this.role === 'applicant') {
-//     if (!this.image || !this.cv) {
-//       return next(new Error('Users must have an image and a CV'));
-//     }
-//   }
-//   next();
-// });
 
 // static signup method
 userSchema.statics.signup = async function (email, password, firstname, lastname, role) {

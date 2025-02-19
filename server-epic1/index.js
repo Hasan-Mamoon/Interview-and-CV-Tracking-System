@@ -7,8 +7,6 @@ import {authRouter} from "./routes/auth.js";
 import { applicantrouter } from "./routes/applicantdata.js";
 import { useRouter } from "./routes/userRoutes.js";
 import { meetingRouter } from "./routes/meetingRoutes.js";
-//import { ApplicantRouter } from "./routes/applicantdata.js";
-//import StudentRouter from "./Routes/studentRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -24,7 +22,7 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow required methods
 }));
 
-// ✅ Handle Preflight Requests (OPTIONS)
+//Handle Preflight Requests (OPTIONS)
 app.options("*", (req, res) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -36,8 +34,6 @@ app.use("/auth", authRouter);
 app.use('/user',useRouter)
 app.use("/appdata",applicantrouter);
 app.use("/meetings", meetingRouter);
-//app.use("/applicant",ApplicantRouter);
-//app.use("/student", StudentRouter);
 
 
 app.listen(process.env.PORT, () => {

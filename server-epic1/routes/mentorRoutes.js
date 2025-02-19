@@ -45,4 +45,3 @@ router.post("/mentor/signup", async (req, res) => {
 
 
 export {router as mentorRouter};
-//authRouter.authenticate(['mentor'])

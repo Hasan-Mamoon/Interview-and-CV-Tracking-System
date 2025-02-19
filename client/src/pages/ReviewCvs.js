@@ -17,14 +17,16 @@ export default function ReviewCvs() {
   const [details, setDetails] = useState([]);
   const [expandedId, setExpandedId] = useState(null);
   const navigate = useNavigate();
-  const { setCandidateId,setCandidateEmail } = useContext(CandidateContext);
-  
+  const { setCandidateId, setCandidateEmail } = useContext(CandidateContext);
+
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await axios.get("http://localhost:3070/appdata/applicant-data");
+        const response = await axios.get(
+          "http://localhost:3070/appdata/applicant-data"
+        );
         console.log(response);
-        
+
         setDetails(response.data);
       } catch (error) {
         console.error("Error fetching details:", error);
@@ -35,11 +37,11 @@ export default function ReviewCvs() {
   }, []);
 
   const handleExpandClick = (id) => {
-    setExpandedId((prevId) => (prevId === id ? null : id)); // Toggle expand state
+    setExpandedId((prevId) => (prevId === id ? null : id));
   };
 
-  const handleScheduleInterview = (id,email) => {
-    setCandidateId(id); // Set the candidate ID in context
+  const handleScheduleInterview = (id, email) => {
+    setCandidateId(id);
     setCandidateEmail(email);
     navigate(`/mentor/dashboard/schedule`);
   };
@@ -80,7 +82,11 @@ export default function ReviewCvs() {
                 </CardContent>
 
                 {/* Collapsible Details */}
-                <Collapse in={expandedId === detail._id} timeout="auto" unmountOnExit>
+                <Collapse
+                  in={expandedId === detail._id}
+                  timeout="auto"
+                  unmountOnExit
+                >
                   <CardContent>
                     <Typography variant="body1">
                       Contact Information: {detail.email}
@@ -98,14 +104,22 @@ export default function ReviewCvs() {
                         View
                       </a>
                     </Typography>
-                    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        mt: 2,
+                      }}
+                    >
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => handleScheduleInterview(detail._id,detail.email)}
+                        onClick={() =>
+                          handleScheduleInterview(detail._id, detail.email)
+                        }
                         sx={{
-                          width: '150px', 
-                          height: '50px', 
+                          width: "150px",
+                          height: "50px",
                         }}
                       >
                         Schedule Interview
@@ -115,8 +129,8 @@ export default function ReviewCvs() {
                         color="error"
                         onClick={() => handleRejectCandidate(detail._id)}
                         sx={{
-                          width: '150px', 
-                          height: '50px', 
+                          width: "150px",
+                          height: "50px",
                         }}
                       >
                         Reject Candidate

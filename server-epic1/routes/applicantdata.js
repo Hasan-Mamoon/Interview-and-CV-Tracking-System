@@ -2,7 +2,7 @@ import express from "express";
 import axios from "axios";
 import { user } from "../models/user.js";
 import mongoose from "mongoose";
-import pkg from 'jsonwebtoken';
+import pkg from "jsonwebtoken";
 import { meeting } from "../models/meeting.js";
 const { verify } = pkg;
 
@@ -27,7 +27,7 @@ router.get("/applicant-data", async (req, res) => {
 
 router.get("/meetings/count", async (req, res) => {
   try {
-    const count = await meeting.countDocuments(); // Get total meetings count
+    const count = await meeting.countDocuments();
     res.status(200).json({ totalMeetings: count });
   } catch (error) {
     console.error("Error counting meetings:", error);
@@ -37,7 +37,10 @@ router.get("/meetings/count", async (req, res) => {
 
 router.get("/users/count-pending", async (req, res) => {
   try {
-    const count = await user.countDocuments({ status: "Pending",interview:"Not-Scheduled" }); // Count pending users
+    const count = await user.countDocuments({
+      status: "Pending",
+      interview: "Not-Scheduled",
+    });
     res.status(200).json({ pendingUsers: count });
   } catch (error) {
     console.error("Error counting pending users:", error);
@@ -46,7 +49,7 @@ router.get("/users/count-pending", async (req, res) => {
 });
 
 router.put("/update-status/:email", async (req, res) => {
-  const session = await mongoose.startSession(); // Start transaction session
+  const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
@@ -82,33 +85,34 @@ router.put("/update-status/:email", async (req, res) => {
         await axios.delete(`http://localhost:3070/meetings/${email}`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            Cookie: `token=${token}`, // Send token as a cookie
+            Cookie: `token=${token}`,
           },
-          withCredentials: true, // Ensures credentials are sent
+          withCredentials: true,
         });
 
         console.log("Meeting deleted successfully.");
       } catch (error) {
-        console.error("Error deleting meeting:", error.response?.data || error.message);
+        console.error(
+          "Error deleting meeting:",
+          error.response?.data || error.message
+        );
 
         // Rollback transaction if meeting deletion fails
         await session.abortTransaction();
         session.endSession();
 
-        return res.status(500).json({ message: "Failed to delete meeting. Transaction aborted." });
+        return res
+          .status(500)
+          .json({ message: "Failed to delete meeting. Transaction aborted." });
       }
     }
 
-    // Commit transaction if everything succeeds
     await session.commitTransaction();
     session.endSession();
 
     return res.json({ message: "Status updated successfully", applicantdata });
-
   } catch (err) {
     console.error("Error updating status:", err);
-
-    // Ensure rollback on unexpected errors
     await session.abortTransaction();
     session.endSession();
 

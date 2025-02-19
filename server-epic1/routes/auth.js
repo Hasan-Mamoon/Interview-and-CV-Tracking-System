@@ -1,6 +1,6 @@
 import express from 'express';
 import { compare } from 'bcrypt';
-import { user } from '../models/user.js'; // Ensure the correct import of the User model
+import { user } from '../models/user.js';
 
 import pkg from 'jsonwebtoken';
 const { sign, verify } = pkg;

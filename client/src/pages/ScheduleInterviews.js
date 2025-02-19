@@ -11,7 +11,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 
 const ScheduleInterviews = () => {
-  const { candidateEmail } = useContext(CandidateContext); 
+  const { candidateEmail } = useContext(CandidateContext);
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ const ScheduleInterviews = () => {
     date: null,
     time: null,
     interviewee: candidateEmail,
-    participants: auth.user.email +", "+ candidateEmail,
+    participants: auth.user.email + ", " + candidateEmail,
   });
 
   const handleChange = (e) => {
@@ -36,10 +36,8 @@ const ScheduleInterviews = () => {
     setMeetingData({
       ...meetingData,
       date,
-      
     });
-    console.log("date",meetingData.date);
-    
+    console.log("date", meetingData.date);
   };
 
   const handleTimeChange = (time) => {
@@ -47,7 +45,7 @@ const ScheduleInterviews = () => {
       ...meetingData,
       time,
     });
-    console.log("time",meetingData.time);
+    console.log("time", meetingData.time);
   };
 
   const generateMeetingUrl = () => {
@@ -62,12 +60,12 @@ const ScheduleInterviews = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!meetingData.date || !meetingData.time) {
       alert("Please select both date and time.");
       return;
     }
-  
+
     // Merge date and time
     const finalDateTime = dayjs(meetingData.date)
       .hour(dayjs(meetingData.time).hour())
@@ -75,9 +73,9 @@ const ScheduleInterviews = () => {
       .second(0) // Reset seconds
       .millisecond(0) // Reset milliseconds
       .toISOString(); // Convert to standard format
-  
+
     console.log("Final Merged Date-Time:", finalDateTime);
-  
+
     const meetingUrl = generateMeetingUrl();
     try {
       const finalMeetingData = {
@@ -85,13 +83,13 @@ const ScheduleInterviews = () => {
         date: finalDateTime, // Store merged timestamp
         url: meetingUrl,
       };
-  
+
       await axios.post(
         "http://localhost:3070/meetings/schedule-meeting",
         finalMeetingData,
         { withCredentials: true }
       );
-  
+
       alert("Meeting scheduled successfully");
       navigate("/mentor/dashboard");
     } catch (error) {
@@ -99,7 +97,7 @@ const ScheduleInterviews = () => {
       alert("Failed to schedule meeting");
     }
   };
-  
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 4 }}>
@@ -121,7 +119,9 @@ const ScheduleInterviews = () => {
               label="Meeting Date"
               value={meetingData.date}
               onChange={handleDateChange}
-              renderInput={(params) => <TextField {...params} fullWidth required sx={{ mb: 2 }} />}
+              renderInput={(params) => (
+                <TextField {...params} fullWidth required sx={{ mb: 2 }} />
+              )}
             />
           </LocalizationProvider>
 
@@ -130,7 +130,9 @@ const ScheduleInterviews = () => {
               label="Meeting Time"
               value={meetingData.time}
               onChange={handleTimeChange}
-              renderInput={(params) => <TextField {...params} fullWidth required sx={{ mb: 2 }} />}
+              renderInput={(params) => (
+                <TextField {...params} fullWidth required sx={{ mb: 2 }} />
+              )}
             />
           </LocalizationProvider>
 
@@ -148,7 +150,12 @@ const ScheduleInterviews = () => {
             Meeting Link: <strong>{generateMeetingUrl()}</strong>
           </Typography>
 
-          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
             Schedule Meeting
           </Button>
         </form>
