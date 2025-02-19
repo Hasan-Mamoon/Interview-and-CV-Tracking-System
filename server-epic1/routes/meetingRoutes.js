@@ -1,25 +1,70 @@
 import express from 'express';
+import { user } from '../models/user.js';
 //import { verify } from "jsonwebtoken"; // Import JWT verify function
 
 import { meeting } from '../models/meeting.js';
+import mongoose from 'mongoose';
 import pkg from 'jsonwebtoken';
 const { verify } = pkg;
 
 const router = express.Router();
 
 // Create a new meeting
-    router.post('/schedule-meeting', async (req, res) => {
-        const { title,url, date,time,interviewee, participants } = req.body;
-        try {
-          const newMeeting = new meeting({ title, url, date,time,interviewee, participants });
-          await newMeeting.save();
-          res.status(200).json({ success: true, message: 'Meeting scheduled successfully' });
-        } catch (error) {
-          console.error('Error scheduling meeting:', error);
-          res.status(500).json({ success: false, message: 'Internal Server Error' });
-        }
-      });
+    // router.post('/schedule-meeting', async (req, res) => {
+    //     const { title,url, date,time,interviewee, participants } = req.body;
+    //     try {
+    //       const newMeeting = new meeting({ title, url, date,time,interviewee, participants });
+    //       await newMeeting.save();
+    //       res.status(200).json({ success: true, message: 'Meeting scheduled successfully' });
+    //     } catch (error) {
+    //       console.error('Error scheduling meeting:', error);
+    //       res.status(500).json({ success: false, message: 'Internal Server Error' });
+    //     }
+    //   });
 
+    //   import mongoose from "mongoose";
+
+      router.post('/schedule-meeting', async (req, res) => {
+          const { title, url, date, time, interviewee, participants } = req.body;
+          const session = await mongoose.startSession(); // ✅ Start transaction session
+      
+          try {
+              session.startTransaction(); // ✅ Begin transaction
+      
+              // ✅ Step 1: Save the meeting
+              const newMeeting = new meeting({ title, url, date, time, interviewee, participants });
+              const savedMeeting = await newMeeting.save({ session });
+      
+              if (!savedMeeting) {
+                  throw new Error("Meeting could not be saved");
+              }
+      
+              // ✅ Step 2: Update candidate status to "scheduled"
+              const updatedCandidate = await user.findOneAndUpdate(
+                  { email: interviewee },
+                  { interview: "scheduled" },
+                  { session, new: true }
+              );
+      
+              if (!updatedCandidate) {
+                  throw new Error("Candidate not found or status update failed");
+              }
+      
+              // ✅ Commit the transaction if both steps succeed
+              await session.commitTransaction();
+              session.endSession();
+      
+              res.status(200).json({ success: true, message: "Meeting scheduled & candidate updated successfully" });
+      
+          } catch (error) {
+              await session.abortTransaction(); // ✅ Rollback if anything fails
+              session.endSession();
+      
+              console.error("Error scheduling meeting:", error);
+              res.status(500).json({ success: false, message: "Internal Server Error" });
+          }
+      });
+      
 // Read all meetings
 router.get('/meetings', async (req, res) => {
   try {

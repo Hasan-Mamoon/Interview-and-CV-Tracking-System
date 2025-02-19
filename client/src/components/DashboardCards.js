@@ -63,6 +63,7 @@
 //   export default DashboardCards;
 
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Typography, Card, Box, Stack, Chip, Divider } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
@@ -119,13 +120,13 @@ const DashboardCards = () => {
       title: "Pending CVs",
       count: pendingCVs,
       description: `You have ${pendingCVs} CVs pending approval.`,
-      desc2: <a href="/mentor/dashboard/review-cvs">Review CVs now</a>,
+      desc2: <Link to="/mentor/dashboard/review-cvs">Review CVs now</Link>,
     },
     {
       title: "Upcoming Meetings",
       count: upcomingMeetings,
       description: `You have ${upcomingMeetings} meetings scheduled.`,
-      desc2: "View Schedule >>>",
+      desc2: <Link to="/mentor/dashboard/scheduled-interviews">Review CVs now</Link>,
     },
   ];
 

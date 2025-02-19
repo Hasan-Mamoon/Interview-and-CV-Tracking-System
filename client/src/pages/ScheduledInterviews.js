@@ -29,11 +29,11 @@ const ScheduledInterviews = () => {
                 setError(err.message);
             } finally {
                 setLoading(false);
-            }
+            }   
         };
 
         fetchInterviews();
-    }, [auth.email]);
+    }, [auth.user.email]);
 
     const handleOpenDialog = (interview, action) => {
         setSelectedInterview(interview);
