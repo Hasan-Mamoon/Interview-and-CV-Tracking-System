@@ -37,7 +37,7 @@ router.get("/meetings/count", async (req, res) => {
 
 router.get("/users/count-pending", async (req, res) => {
   try {
-    const count = await user.countDocuments({ status: "Pending" }); // Count pending users
+    const count = await user.countDocuments({ status: "Pending",interview:"Not-Scheduled" }); // Count pending users
     res.status(200).json({ pendingUsers: count });
   } catch (error) {
     console.error("Error counting pending users:", error);
