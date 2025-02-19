@@ -1,18 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from "../AuthContext";
+import { useContext } from 'react';
+import { AuthContext } from '../Context/AuthContext';
+
 
 const ProtectedRoute = ({ element }) => {
   const { auth } = useContext(AuthContext);
+  console.log("ProtectedRoute: user", auth.user);
 
-  if (auth.loading) {
-    return <div>Loading...</div>;
+  if (auth.user) {
+    return element;
+  } else {
+    console.log("ProtectedRoute: user not found");
+    return <Navigate to="/user/signin" />;
   }
-  if (!auth.loggedIn) {
-    return <Navigate to="/mentor/signin" replace />;
-  }
-
-  return element;
 };
 
 export default ProtectedRoute;
