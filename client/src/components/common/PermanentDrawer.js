@@ -18,36 +18,35 @@ import { useNavigate, useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
 import RateReviewIcon from "@mui/icons-material/RateReview";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import WorkIcon from "@mui/icons-material/Work";
 
 const drawerWidth = 240;
 
-function ResponsiveDrawer(props) {
+function ResponsiveDrawer({ role, children }) {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const handleListItemClick = (text) => {
-    switch (text) {
-      case "Home":
-        navigate("/mentor/dashboard");
-        break;
-      case "Review CVs":
-        navigate("/mentor/dashboard/review-cvs");
-        break;
-      case "Scheduled Interviews":
-        navigate("/mentor/dashboard/scheduled-interviews/");
-        break;
-      default:
-        break;
-    }
-  };
-
-  const menuItems = [
+  // Define menu items based on role
+  const mentorMenuItems = [
     { text: "Home", icon: <DashboardIcon />, path: "/mentor/dashboard" },
     { text: "Review CVs", icon: <RateReviewIcon />, path: "/mentor/dashboard/review-cvs" },
     { text: "Scheduled Interviews", icon: <HistoryToggleOffIcon />, path: "/mentor/dashboard/scheduled-interviews/" },
   ];
+
+  const applicantMenuItems = [
+    { text: "Home", icon: <DashboardIcon />, path: "/applicant/dashboard" },
+    { text: "My Applications", icon: <AssignmentIndIcon />, path: "/applicant/dashboard/my-applications" },
+    { text: "Job Listings", icon: <WorkIcon />, path: "/applicant/dashboard/job-listings" },
+  ];
+
+  const menuItems = role === "mentor" ? mentorMenuItems : applicantMenuItems;
+
+  const handleListItemClick = (path) => {
+    navigate(path);
+  };
 
   const drawerContent = (
     <Box
@@ -65,7 +64,7 @@ function ResponsiveDrawer(props) {
         {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
             <ListItemButton
-              onClick={() => handleListItemClick(item.text)}
+              onClick={() => handleListItemClick(item.path)}
               selected={location.pathname === item.path}
               sx={{
                 color: "white",
@@ -119,13 +118,14 @@ function ResponsiveDrawer(props) {
           mt: 8, // Offset for AppBar
         }}
       >
-        {props.children}
+        {children}
       </Box>
     </Box>
   );
 }
 
 ResponsiveDrawer.propTypes = {
+  role: PropTypes.oneOf(["mentor", "applicant"]).isRequired,
   children: PropTypes.node,
 };
 
