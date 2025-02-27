@@ -1,16 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, CssBaseline, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  CssBaseline,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import HistoryToggleOffIcon from '@mui/icons-material/HistoryToggleOff';
-import RateReviewIcon from '@mui/icons-material/RateReview';
-
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import HistoryToggleOffIcon from "@mui/icons-material/HistoryToggleOff";
+import RateReviewIcon from "@mui/icons-material/RateReview";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
-  
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
@@ -32,39 +43,50 @@ function ResponsiveDrawer(props) {
     }
   };
 
+  const menuItems = [
+    { text: "Home", icon: <DashboardIcon />, path: "/mentor/dashboard" },
+    { text: "Review CVs", icon: <RateReviewIcon />, path: "/mentor/dashboard/review-cvs" },
+    { text: "Scheduled Interviews", icon: <HistoryToggleOffIcon />, path: "/mentor/dashboard/scheduled-interviews/" },
+  ];
+
   const drawerContent = (
-    <div>
+    <Box
+      sx={{
+        height: "100%",
+        background: "linear-gradient(to bottom, rgb(13, 17, 16), rgba(80, 36, 163, 0.42))",
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Toolbar />
-      <Divider />
-      <List>
-        {["Home", "Review CVs", "Scheduled Interviews"].map((text, index) => (
-          <ListItem
-            key={text}
-            disablePadding
-            selected={
-              (text === "Home" && location.pathname === "/mentor/dashboard") ||
-              (text === "Review CVs" && location.pathname === "/mentor/dashboard/review-cvs") ||
-              (text === "Scheduled Interviews" && location.pathname === "/mentor/dashboard/scheduled-interviews/")
-            }
-            sx={{
-              '&.Mui-selected': {
-                backgroundColor: theme.palette.action.selected,
-                '&:hover': {
-                  backgroundColor: theme.palette.action.hover,
+      <Divider sx={{ backgroundColor: "rgba(255, 255, 255, 0.2)" }} />
+      <List sx={{ flexGrow: 1 }}>
+        {menuItems.map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton
+              onClick={() => handleListItemClick(item.text)}
+              selected={location.pathname === item.path}
+              sx={{
+                color: "white",
+                "&.Mui-selected": {
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  },
                 },
-              },
-            }}
-          >
-            <ListItemButton onClick={() => handleListItemClick(text)}>
-              <ListItemIcon>
-                {index === 0 ? <DashboardIcon /> : index === 1 ? <RateReviewIcon /> : <HistoryToggleOffIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+                "&:hover": {
+                  backgroundColor: "rgba(255, 255, 255, 0.1)",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-    </div>
+    </Box>
   );
 
   return (
@@ -80,6 +102,8 @@ function ResponsiveDrawer(props) {
           "& .MuiDrawer-paper": {
             width: isSmallScreen ? "auto" : drawerWidth,
             boxSizing: "border-box",
+            background: "linear-gradient(to bottom, rgb(13, 17, 16), rgba(80, 36, 163, 0.42))",
+            color: "white",
           },
         }}
       >
