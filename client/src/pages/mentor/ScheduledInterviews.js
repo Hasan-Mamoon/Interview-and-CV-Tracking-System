@@ -15,7 +15,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { AuthContext } from "../Context/AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 
 import dayjs from "dayjs";
 

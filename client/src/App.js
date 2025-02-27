@@ -2,14 +2,14 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthContextProvider } from "./Context/AuthContext";
 import { CandidateProvider } from "./Context/CandidateContext";
-import SignUp from "./pages/SignUp";
-import SignIn from "./pages/SignIn";
-import Dashboard from "./pages/Dashboard";
-import ReviewCvs from "./pages/ReviewCvs";
-import ScheduleMeeting from "./pages/ScheduleInterviews";
-import ProtectedRoute from "./components/ProtectedRoutes";
-import JitsiMeet from "./components/JitsiMeet";
-import ScheduledInterviews from "./pages/ScheduledInterviews";
+import SignUp from "./pages/common/SignUp";
+import SignIn from "./pages/common/SignIn";
+import Dashboard from "./pages/common/Dashboard";
+import ReviewCvs from "./pages/mentor/ReviewCvs";
+import ScheduleMeeting from "./pages/mentor/ScheduleInterviews";
+import ProtectedRoute from "./components/common/ProtectedRoutes";
+import JitsiMeet from "./components/common/JitsiMeet";
+import ScheduledInterviews from "./pages/mentor/ScheduledInterviews";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function App() {
