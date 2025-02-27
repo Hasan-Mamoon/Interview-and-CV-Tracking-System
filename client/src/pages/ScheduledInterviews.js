@@ -38,7 +38,12 @@ const ScheduledInterviews = () => {
         setInterviews(response.data);
         console.log("INTERVIEWS", response.data);
       } catch (err) {
-        setError(err.message);
+        if(err.response?.status === 404) {
+          setError("No meetings Scheduled yet.");
+        }else {
+          setError(err.message);
+        }
+        
       } finally {
         setLoading(false);
       }
