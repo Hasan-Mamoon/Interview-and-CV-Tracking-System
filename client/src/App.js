@@ -2,30 +2,61 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthContextProvider } from "./Context/AuthContext";
 import { CandidateProvider } from "./Context/CandidateContext";
-import SignUp from "./pages/SignUp";
-import SignIn from "./pages/SignIn";
-import Dashboard from "./pages/Dashboard";
-import ReviewCvs from "./pages/ReviewCvs";
-import ScheduleMeeting from "./pages/ScheduleInterviews";
-import ProtectedRoute from "./components/ProtectedRoutes";
-import JitsiMeet from "./components/JitsiMeet";
-import ScheduledInterviews from "./pages/ScheduledInterviews";
+import SignUp from "./pages/common/SignUp";
+import SignIn from "./pages/common/SignIn";
+import Dashboard from "./pages/common/Dashboard";
+import ReviewCvs from "./pages/mentor/ReviewCvs";
+import ScheduleMeeting from "./pages/mentor/ScheduleInterviews";
+import ProtectedRoute from "./components/common/ProtectedRoutes";
+import JitsiMeet from "./components/common/JitsiMeet";
+import ScheduledInterviews from "./pages/mentor/ScheduledInterviews";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function App() {
   const darkTheme = createTheme({
     palette: {
-      mode: "dark", // Enable dark mode
+      mode: "dark",
       primary: {
-        main: "#90caf9", // Light blue
+        main: "#2ebf91", // Vibrant green (consistent with Sign-In button)
+      },
+      secondary: {
+        main: "#5024a3", // Deep purple (matching the gradient)
       },
       background: {
-        default: "#121212", // Dark background
-        paper: "#1e1e1e", // Slightly lighter dark
+        default: "linear-gradient(to right, rgb(13, 17, 16), rgba(80, 36, 163, 0.42))", // Gradient Background
+        paper: "rgba(30, 30, 30, 0.9)", // Slightly transparent dark background for cards/dialogs
       },
       text: {
-        primary: "#ffffff", // White text
-        secondary: "#b0bec5", // Light gray text
+        primary: "#ffffff", // White text for readability
+        secondary: "rgba(255, 255, 255, 0.8)", // Slightly faded text
+      },
+      action: {
+        hover: "rgba(255, 255, 255, 0.1)", // Subtle hover effect
+      },
+    },
+    components: {
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            background: "rgba(30, 30, 30, 0.9)", // Making Paper elements match the dashboard
+            color: "#ffffff",
+          },
+        },
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            textTransform: "none", // Keep buttons modern and clean
+            fontWeight: "bold",
+            borderRadius: "8px",
+          },
+          containedPrimary: {
+            backgroundColor: "#2ebf91",
+            "&:hover": {
+              backgroundColor: "#1ea672",
+            },
+          },
+        },
       },
     },
   });
