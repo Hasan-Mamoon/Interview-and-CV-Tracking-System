@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Typography, Box, CssBaseline } from "@mui/material";
-import ResponsiveAppBar from "../components/Appbar";
-import ResponsiveDrawer from "../components/PermanentDrawer";
+import ResponsiveAppBar from "../../components/common/Appbar";
+import ResponsiveDrawer from "../../components/common/PermanentDrawer";
 import { Outlet, useLocation } from "react-router-dom";
-import Footer from "../components/Footer";
-import DashboardCards from "../components/DashboardCards";
-import { AuthContext } from "../Context/AuthContext";
+import Footer from "../../components/common/Footer";
+import DashboardCards from "../../components/common/DashboardCards";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Dashboard = () => {
   const { auth } = useContext(AuthContext);

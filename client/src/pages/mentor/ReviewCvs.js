@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { CandidateContext } from "../Context/CandidateContext";
+import { CandidateContext } from "../../Context/CandidateContext";
 
 export default function ReviewCvs() {
   const [details, setDetails] = useState([]);
