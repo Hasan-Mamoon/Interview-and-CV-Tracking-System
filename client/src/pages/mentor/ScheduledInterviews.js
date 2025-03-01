@@ -33,7 +33,7 @@ const ScheduledInterviews = () => {
     const fetchInterviews = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3070/meetings/${auth.user.email}`
+          `${import.meta.env.Epic1_URL}/meetings/${auth.user.email}`
         );
         setInterviews(response.data);
         console.log("INTERVIEWS", response.data);
@@ -70,7 +70,7 @@ const ScheduledInterviews = () => {
 
     try {
       await axios.put(
-        `http://localhost:3070/appdata/update-status/${selectedCandidate}`,
+        `${import.meta.env.Epic1_URL}/appdata/update-status/${selectedCandidate}`,
         {
           status: actionType,
           interview: "completed",

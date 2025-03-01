@@ -18,7 +18,7 @@ export const authReducer = (state, action) => {
 const validateToken = async () => {
   try {
     const response = await axios.post(
-      "http://localhost:3070/auth/validate-token",
+      `${import.meta.env.Epic1_URL}/auth/validate-token`,
       {},
       { withCredentials: true }
     );
@@ -35,7 +35,7 @@ const validateToken = async () => {
 const refreshToken = async () => {
   try {
     const response = await axios.post(
-      "http://localhost:3070/auth/refresh-token",
+      `${import.meta.env.Epic1_URL}/auth/refresh-token`,
       {},
       { withCredentials: true }
     );
@@ -101,7 +101,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:3070/auth/signin", {
+      const response = await fetch(`${import.meta.env.Epic1_URL}/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -123,7 +123,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch("http://localhost:3070/auth/logout", {
+      await fetch(`${import.meta.env.Epic1_URL}/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

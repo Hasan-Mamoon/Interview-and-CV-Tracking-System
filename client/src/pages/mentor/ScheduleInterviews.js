@@ -85,7 +85,7 @@ const ScheduleInterviews = () => {
       };
 
       await axios.post(
-        "http://localhost:3070/meetings/schedule-meeting",
+        `${import.meta.env.Epic1_URL}/meetings/schedule-meeting`,
         finalMeetingData,
         { withCredentials: true }
       );

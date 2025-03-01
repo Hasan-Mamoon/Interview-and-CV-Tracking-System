@@ -27,9 +27,10 @@ export default function SignIn() {
     const result = await login(email, password);
     if (result.success) {
       navigate(
-        result.user.role === "mentor"
-          ? "/mentor/dashboard"
-          : "/applicant/dashboard"
+        // result.user.role === "mentor"
+        //   ? "/user/dashboard"
+        //   : "/user/dashboard"
+        "/user/dashboard"
       );
     } else {
       setError(result.error);

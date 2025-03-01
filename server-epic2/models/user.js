@@ -26,10 +26,6 @@ const userSchema = new Schema({
   status: { type: String},
   interview: { type: String },
   cv:{type:String},
-  speciality: { type: String },
-  degree: { type: String },
-  experience: { type: String },
-  about: { type: String },
 });
 
 // static signup method
