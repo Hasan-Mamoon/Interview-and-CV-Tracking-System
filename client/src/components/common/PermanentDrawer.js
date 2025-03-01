@@ -31,9 +31,9 @@ function ResponsiveDrawer({ role, children }) {
 
   // Define menu items based on role
   const mentorMenuItems = [
-    { text: "Home", icon: <DashboardIcon />, path: "/user/dashboard" },
-    { text: "Review CVs", icon: <RateReviewIcon />, path: "/user/dashboard/review-cvs" },
-    { text: "Scheduled Interviews", icon: <HistoryToggleOffIcon />, path: "/user/dashboard/scheduled-interviews/" },
+    { text: "Home", icon: <DashboardIcon />, path: "/mentor/dashboard" },
+    { text: "Review CVs", icon: <RateReviewIcon />, path: "/mentor/dashboard/review-cvs" },
+    { text: "Scheduled Interviews", icon: <HistoryToggleOffIcon />, path: "/mentor/dashboard/scheduled-interviews" },
   ];
 
   const applicantMenuItems = [

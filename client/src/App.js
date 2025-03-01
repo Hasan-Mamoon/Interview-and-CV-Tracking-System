@@ -71,7 +71,7 @@ function App() {
               <Route path="/user/signin" element={<SignIn />} />
               <Route path="/mentor/jitsi" element={<JitsiMeet />} />
               <Route
-                path="/user/dashboard"
+                path="/mentor/dashboard"
                 element={<ProtectedRoute element={<Dashboard />} />}
               >
                 <Route path="review-cvs" element={<ReviewCvs />} />

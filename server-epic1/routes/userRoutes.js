@@ -53,7 +53,7 @@ const router = express.Router();
         if(role == 'applicant'){
             const interview = 'Not-Scheduled';
             const status = 'Pending';
-            const newUser = await user.signup(email, password, firstname,lastname,status,interview,role);
+            const newUser = await user.signup(email, password, firstname,lastname,role,status,interview);
             return res.status(201).json({ success: true, message: "Applicant Registered", user: newUser });
         }
         // Handle non-doctor signup

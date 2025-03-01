@@ -112,7 +112,22 @@ const ScheduledInterviews = () => {
 
           return (
             <Grid item xs={12} sm={6} md={4} key={interview._id}>
-              <Card>
+              <Card
+              variant="outlined"
+              sx={{
+                minWidth: 360,
+                maxWidth: 360,
+                width: "100%",
+                p: 3,
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderRadius: 2,
+                boxShadow: 3,
+                backdropFilter: "blur(10px)",
+                transition: "transform 0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                },
+              }}>
                 <CardContent>
                   <Typography variant="h5" component="div">
                     {interview.title}

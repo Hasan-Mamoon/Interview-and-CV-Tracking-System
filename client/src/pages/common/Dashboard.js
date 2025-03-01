@@ -149,7 +149,7 @@ const Dashboard = () => {
   const location = useLocation();
 
   // Determine if this is the root dashboard path
-  const isRoot = location.pathname === `/${auth.user.role}/dashboard`;
+  const isRoot = location.pathname === `/mentor/dashboard`;
 
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
