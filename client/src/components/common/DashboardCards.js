@@ -28,8 +28,8 @@ const DashboardCards = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const meetingsRes = await fetch(`${import.meta.env.Epic1_URL}/appdata/meetings/count`);
-        const usersRes = await fetch(`${import.meta.env.Epic1_URL}/appdata/users/count-pending`);
+        const meetingsRes = await fetch(`${process.env.REACT_APP_EPIC1_URL}/appdata/meetings/count`);
+        const usersRes = await fetch(`${process.env.REACT_APP_EPIC1_URL}/appdata/users/count-pending`);
 
         if (!meetingsRes.ok || !usersRes.ok) throw new Error("Failed to fetch data");
 

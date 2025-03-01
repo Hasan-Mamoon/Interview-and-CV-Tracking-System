@@ -23,7 +23,7 @@ export default function ReviewCvs() {
     const fetchDetails = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.Epic1_URL}/appdata/applicant-data`
+          `${process.env.REACT_APP_EPIC1_URL}/appdata/applicant-data`
         );
         console.log(response);
 

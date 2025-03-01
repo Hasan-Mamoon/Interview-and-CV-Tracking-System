@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useEffect } from "react";
 import axios from "axios";
 
+
 export const AuthContext = createContext();
 
 // Reducer function for authentication state
@@ -18,10 +19,11 @@ export const authReducer = (state, action) => {
 const validateToken = async () => {
   try {
     const response = await axios.post(
-      `${import.meta.env.Epic1_URL}/auth/validate-token`,
+      `${process.env.REACT_APP_EPIC1_URL}/auth/validate-token`,
       {},
       { withCredentials: true }
     );
+    console.log("RESPONSE",response); 
     return response.data.user;
   } catch (error) {
     console.error(
@@ -35,7 +37,7 @@ const validateToken = async () => {
 const refreshToken = async () => {
   try {
     const response = await axios.post(
-      `${import.meta.env.Epic1_URL}/auth/refresh-token`,
+      `${process.env.REACT_APP_EPIC1_URL}/auth/refresh-token`,
       {},
       { withCredentials: true }
     );
@@ -101,12 +103,13 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch(`${import.meta.env.Epic1_URL}/auth/signin`, {
+      const response = await fetch(`${process.env.REACT_APP_EPIC1_URL}/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
         credentials: "include",
       });
+      console.log("RESPONSE",response);
 
       if (!response.ok) throw new Error("Invalid credentials");
 
@@ -123,7 +126,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch(`${import.meta.env.Epic1_URL}/auth/logout`, {
+      await fetch(`${process.env.REACT_APP_EPIC1_URL}/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

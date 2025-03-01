@@ -30,7 +30,7 @@ export default function SignUp() {
     const role = data.get("role");
 
     try {
-      const response = await axios.post(`${import.meta.env.Epic1_URL}/user/signup`, {
+      const response = await axios.post(`${process.env.REACT_APP_EPIC1_URL}/user/signup`, {
         email,
         password,
         firstname,
