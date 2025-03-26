@@ -71,15 +71,15 @@ const DashboardCards = () => {
 
   const cardData = [
     {
-      title: "Pending CVs",
+      title: "CVs Awaiting Review",
       count: pendingCVs,
-      description: `You have ${pendingCVs} CVs pending approval.`,
+      description: `There are ${pendingCVs} CVs awaiting your review.`,
       desc2: <Link to="/mentor/dashboard/review-cvs" style={{ textDecoration: "none", color: "#2ebf91" }}>Review CVs now</Link>,
     },
     {
-      title: "Upcoming Meetings",
+      title: "Scheduled Interviews",
       count: upcomingMeetings,
-      description: `You have ${upcomingMeetings} meetings scheduled.`,
+      description: `You have ${upcomingMeetings} interviews comming up.`,
       desc2: <Link to="/mentor/dashboard/scheduled-interviews" style={{ textDecoration: "none", color: "#2ebf91" }}>View Meetings</Link>,
     },
   ];

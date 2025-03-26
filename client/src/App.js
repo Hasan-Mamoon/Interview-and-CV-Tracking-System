@@ -12,6 +12,8 @@ import JitsiMeet from "./components/common/JitsiMeet";
 import ScheduledInterviews from "./pages/mentor/ScheduledInterviews";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import ApplyJob from "./pages/applicant/apply";
+
 function App() {
   const darkTheme = createTheme({
     palette: {
@@ -72,7 +74,7 @@ function App() {
               <Route path="/mentor/jitsi" element={<JitsiMeet />} />
               <Route
                 path="/mentor/dashboard"
-                element={<ProtectedRoute element={<Dashboard />} />}
+                element={<ProtectedRoute element={<Dashboard />} role="mentor"/>}
               >
                 <Route path="review-cvs" element={<ReviewCvs />} />
                 <Route path="schedule" element={<ScheduleMeeting />} />
@@ -80,6 +82,13 @@ function App() {
                   path="scheduled-interviews"
                   element={<ScheduledInterviews />}
                 />
+              </Route>
+
+              <Route path="/applicant/dashboard" element={<ProtectedRoute element={<Dashboard/>} role = "applicant"/>}
+              >
+                <Route path="apply" element={<ApplyJob />} />
+                <Route path="my-applications" element={<ScheduleMeeting />} />
+
               </Route>
             </Routes>
           </BrowserRouter>

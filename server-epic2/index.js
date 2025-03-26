@@ -3,10 +3,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import {authRouter} from "./routes/auth.js";
-import { applicantrouter } from "./routes/applicantdata.js";
-import { useRouter } from "./routes/userRoutes.js";
-import { meetingRouter } from "./routes/meetingRoutes.js";
+import { applyRouter } from "./routes/apply.js";
+import { dataRouter } from "./routes/dataFetch.js";
+
 
 const app = express();
 dotenv.config();
@@ -30,7 +29,10 @@ app.options("*", (req, res) => {
   res.header("Access-Control-Allow-Credentials", "true");
   res.sendStatus(204); // Respond with No Content (Preflight OK)
 });
-app.use("/auth", authRouter);
+
+
+app.use("/apply", applyRouter);
+app.use("/applicant", dataRouter);
 
 
 

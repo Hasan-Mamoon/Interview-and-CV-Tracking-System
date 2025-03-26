@@ -38,8 +38,9 @@ function ResponsiveDrawer({ role, children }) {
 
   const applicantMenuItems = [
     { text: "Home", icon: <DashboardIcon />, path: "/applicant/dashboard" },
-    { text: "My Applications", icon: <AssignmentIndIcon />, path: "/applicant/dashboard/my-applications" },
-    { text: "Job Listings", icon: <WorkIcon />, path: "/applicant/dashboard/job-listings" },
+    { text: "Apply", icon: <WorkIcon />, path: "/applicant/dashboard/apply" },
+    { text: "My Applications", icon: <AssignmentIndIcon />, path: "/applicant/dashboard/my-applications" }
+    
   ];
 
   const menuItems = role === "mentor" ? mentorMenuItems : applicantMenuItems;

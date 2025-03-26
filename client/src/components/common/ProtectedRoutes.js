@@ -4,16 +4,18 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Context/AuthContext';
 
 
-const ProtectedRoute = ({ element }) => {
+const ProtectedRoute = ({ element,role }) => {
   const { auth } = useContext(AuthContext);
-  console.log("ProtectedRoute: user", auth.user);
 
-  if (auth.user) {
-    return element;
-  } else {
-    console.log("ProtectedRoute: user not found");
-    return <Navigate to="/user/signin" />;
-  }
+  // if (auth.user) {
+  //   return element;
+  // } else {
+  //   console.log("ProtectedRoute: user not found");
+  //   return <Navigate to="/user/signin" />;
+  // }
+  if (!auth.user) return <Navigate to="/user/signin" />;
+
+  return element;
 };
 
 export default ProtectedRoute;

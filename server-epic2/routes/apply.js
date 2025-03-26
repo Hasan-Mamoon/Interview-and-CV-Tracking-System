@@ -1,5 +1,4 @@
 import express from "express";
-import { doctormodel } from "../models/doctor.js";
 import multer from "multer";
 import crypto from 'crypto'
 import sharp from "sharp";
