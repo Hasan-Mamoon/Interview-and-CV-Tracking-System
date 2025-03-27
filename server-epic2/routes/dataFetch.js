@@ -1,5 +1,5 @@
 import express from "express";
-import { user } from "../models/user.js";
+import { applicantm } from "../models/applicant.js";
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.get("/application-status/:email", async (req, res) => {
 
   
       // Find the user by email
-      const userdata = await user.findOne({ email });
+      const userdata = await applicantm.findOne({ email });
   
       console.log("userdata", userdata);  
       if (!userdata) {

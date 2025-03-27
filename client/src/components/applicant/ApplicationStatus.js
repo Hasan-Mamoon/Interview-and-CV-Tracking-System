@@ -112,8 +112,8 @@ import "react-step-progress-bar/styles.css";
 
 const statusSteps = [
   { label: "Application Filled", value: "application-filled" },
-  { label: "Pending Review", value: "Pending" },
-  { label: "Interview Scheduled", value: "Scheduled" },
+  { label: "Pending Review", value: "not-scheduled" },
+  { label: "Interview Scheduled", value: "scheduled" },
   { label: "Results announced", value: "accepted" || "rejected" },
 ];
 
@@ -129,6 +129,7 @@ const ApplicationProgress = ({ userEmail}) => {
         const data = await response.json();
         setStatus(data.status); 
         setInterviewStatus(data.interview);
+        console.log("data", data);
       } catch (error) {
         console.error("Error fetching application status:", error);
       } finally {
@@ -157,7 +158,7 @@ const ApplicationProgress = ({ userEmail}) => {
   }
 
   // Determine progress percentage
-  const stepIndex = statusSteps.findIndex((step) => step.value === status || step.value === interviewStatus);
+  const stepIndex = statusSteps.findIndex((step) =>  step.value === interviewStatus);
   const progress = stepIndex >= 0 ? (stepIndex / (statusSteps.length - 1)) * 100 : 0;
 
   return (

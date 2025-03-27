@@ -40,7 +40,7 @@ const JobApplication = () => {
     });
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_EPIC2_URL}/apply/update/${auth.user.email}`, {
+      const response = await fetch(`${process.env.REACT_APP_EPIC2_URL}/apply/data`, {
         method: "POST",
         body: formDataObj,
       });

@@ -4,7 +4,7 @@ dotenv.config();
 const Connection = () => {
   try {
     mongoose.connect(process.env.URL);
-    console.log("DB CREATED");
+    console.log("MongoDB Connected");
   } catch (err) {
     console.log("Error" + err);
   }

@@ -1,5 +1,5 @@
 import express from "express";
-import { user } from "../models/user.js";
+import { applicantm } from "../models/applicant.js";
 
 import { meeting } from "../models/meeting.js";
 import mongoose from "mongoose";
@@ -28,7 +28,7 @@ router.post("/schedule-meeting", async (req, res) => {
     }
 
     //Update candidate status to "scheduled"
-    const updatedCandidate = await user.findOneAndUpdate(
+    const updatedCandidate = await applicantm.findOneAndUpdate(
       { email: interviewee },
       { interview: "scheduled" },
       { session, new: true }
