@@ -79,7 +79,7 @@ const DashboardCards = () => {
     {
       title: "Scheduled Interviews",
       count: upcomingMeetings,
-      description: `You have ${upcomingMeetings} interviews comming up.`,
+      description: `You have ${upcomingMeetings} interviews coming up.`,
       desc2: <Link to="/mentor/dashboard/scheduled-interviews" style={{ textDecoration: "none", color: "#2ebf91" }}>View Meetings</Link>,
     },
   ];

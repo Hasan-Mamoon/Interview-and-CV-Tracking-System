@@ -87,7 +87,6 @@ function App() {
               <Route path="/applicant/dashboard" element={<ProtectedRoute element={<Dashboard/>} role = "applicant"/>}
               >
                 <Route path="apply" element={<ApplyJob />} />
-                <Route path="my-applications" element={<ScheduleMeeting />} />
 
               </Route>
             </Routes>

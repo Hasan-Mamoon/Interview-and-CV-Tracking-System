@@ -114,7 +114,7 @@ const statusSteps = [
   { label: "Application Filled", value: "application-filled" },
   { label: "Pending Review", value: "not-scheduled" },
   { label: "Interview Scheduled", value: "scheduled" },
-  { label: "Results announced", value: "accepted" || "rejected" },
+  { label: "Results announced", value: ["accepted", "rejected"] },
 ];
 
 const ApplicationProgress = ({ userEmail}) => {

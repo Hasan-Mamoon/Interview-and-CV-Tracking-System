@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Context/AuthContext';
 
 
-const ProtectedRoute = ({ element,role }) => {
+const ProtectedRoute = ({ element}) => {
   const { auth } = useContext(AuthContext);
 
   // if (auth.user) {
