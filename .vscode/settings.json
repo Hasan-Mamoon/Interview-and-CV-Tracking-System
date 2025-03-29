@@ -1,2 +1,5 @@
 {
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///home/hassan/WebProjects/Interview-and-CV-Tracking-System/.actions/workflows/main.yml"
+    }
 }
