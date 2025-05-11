@@ -33,7 +33,7 @@ const ScheduledInterviews = () => {
     const fetchInterviews = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3070/meetings/${auth.user.email}`
+          `${process.env.REACT_APP_EPIC1_URL}/meetings/${auth.user.email}`
         );
         setInterviews(response.data);
         console.log("INTERVIEWS", response.data);
@@ -70,7 +70,7 @@ const ScheduledInterviews = () => {
 
     try {
       await axios.put(
-        `http://localhost:3070/appdata/update-status/${selectedCandidate}`,
+        `${process.env.REACT_APP_EPIC1_URL}/appdata/update-status/${selectedCandidate}`,
         {
           status: actionType,
           interview: "completed",
@@ -112,7 +112,22 @@ const ScheduledInterviews = () => {
 
           return (
             <Grid item xs={12} sm={6} md={4} key={interview._id}>
-              <Card>
+              <Card
+              variant="outlined"
+              sx={{
+                minWidth: 360,
+                maxWidth: 360,
+                width: "100%",
+                p: 3,
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderRadius: 2,
+                boxShadow: 3,
+                backdropFilter: "blur(10px)",
+                transition: "transform 0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                },
+              }}>
                 <CardContent>
                   <Typography variant="h5" component="div">
                     {interview.title}

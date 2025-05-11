@@ -23,9 +23,7 @@ const userSchema = new Schema({
   },
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
-  status: { type: String},
-  interview: { type: String },
-  cv:{type:String},
+
 });
 
 // static signup method
@@ -127,12 +125,6 @@ userSchema.statics.signup = async function (email, password, firstname, lastname
   // Hash password and create user
   const salt = await genSalt(10);
   const hash = await _hash(password, salt);
-  if(role == 'applicant'){
-    const user = await this.create({ email, password: hash, firstname, lastname,role,
-       interview: 'Not-Scheduled' ,status: "Pending" });
-    
-    return user;
-  }
 
   const user = await this.create({ email, password: hash, firstname, lastname,role });
   return user;

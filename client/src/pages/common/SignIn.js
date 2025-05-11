@@ -30,6 +30,7 @@ export default function SignIn() {
         result.user.role === "mentor"
           ? "/mentor/dashboard"
           : "/applicant/dashboard"
+        
       );
     } else {
       setError(result.error);

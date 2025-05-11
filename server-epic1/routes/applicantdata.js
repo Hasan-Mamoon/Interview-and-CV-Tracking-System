@@ -1,6 +1,6 @@
 import express from "express";
 import axios from "axios";
-import { user } from "../models/user.js";
+import { applicantm } from "../models/applicant.js";
 import mongoose from "mongoose";
 import pkg from "jsonwebtoken";
 import { meeting } from "../models/meeting.js";
@@ -10,13 +10,11 @@ const router = express.Router();
 
 router.get("/applicant-data", async (req, res) => {
   try {
-    const email = req.body;
-    const applicantdata = await user.find({
-      role: "applicant",
+    const applicantdata = await applicantm.find({
       interview: "Not-Scheduled",
     });
     if (!applicantdata) {
-      return res.status(401).json({ message: "Invalid Email" });
+      return res.status(401).json({ message: "No applicants found" });
     }
     return res.json(applicantdata);
   } catch (err) {
@@ -37,7 +35,7 @@ router.get("/meetings/count", async (req, res) => {
 
 router.get("/users/count-pending", async (req, res) => {
   try {
-    const count = await user.countDocuments({
+    const count = await applicantm.countDocuments({
       status: "Pending",
       interview: "Not-Scheduled",
     });
@@ -67,7 +65,7 @@ router.put("/update-status/:email", async (req, res) => {
     }
 
     //Fetch applicant data inside transaction
-    const applicantdata = await user.findOne({ email }).session(session);
+    const applicantdata = await applicantm.findOne({ email }).session(session);
     if (!applicantdata) {
       await session.abortTransaction();
       session.endSession();

@@ -23,7 +23,7 @@ export default function ReviewCvs() {
     const fetchDetails = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3070/appdata/applicant-data"
+          `${process.env.REACT_APP_EPIC1_URL}/appdata/applicant-data`
         );
         console.log(response);
 
@@ -60,7 +60,23 @@ export default function ReviewCvs() {
         {details && details.length > 0 ? (
           details.map((detail) => (
             <Grid item xs={12} sm={6} md={4} key={detail._id}>
-              <Card variant="outlined">
+              <Card
+                variant="outlined"
+                sx={{
+                  minWidth: 360,
+                  maxWidth: 360,
+                  width: "100%",
+                  p: 3,
+                  backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  backdropFilter: "blur(10px)",
+                  transition: "transform 0.3s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                  },
+                }}
+              >
                 <CardContent>
                   {/* Summary */}
                   <Typography variant="h5" component="div">
