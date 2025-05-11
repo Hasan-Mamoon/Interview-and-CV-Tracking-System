@@ -1,14 +1,22 @@
-FROM node AS build
+# Use the official Node.js LTS image
+FROM node:18-alpine
+
+# Set working directory
 WORKDIR /app
 
-COPY server-epic1/package.json server-epic1/package-lock.json ./
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm install
 
-RUN npm install --only=production
+# Copy the rest of the app files
+COPY . .
 
-COPY /server-epic1/ ./
+# Expose the app and metrics ports
+EXPOSE 5000 9464
 
-EXPOSE 5000
+# Use environment variables from .env if provided
+ENV NODE_ENV=production
 
-
+# Start the app
 CMD ["node", "index.js"]
 
